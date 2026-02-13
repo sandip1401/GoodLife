@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
-    <div className='pt-21 mx-7 sm:mx-[10%] '>
+    <div className='pt-20 mx-7 sm:mx-[10%] '>
        <ToastContainer />
       <Navbar/>
       <Routes>
