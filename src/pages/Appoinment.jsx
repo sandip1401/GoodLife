@@ -284,6 +284,7 @@ export const Appoinment = () => {
               </div>
             ))}
         </div>
+
         <div className="flex items-center gap-3 w-full overflow-x-scroll mt-4">
           {docSlots.length &&
             docSlots[slotIndex].map((item, index) => (
@@ -314,7 +315,6 @@ export const Appoinment = () => {
           Book an appointment
         </button>
 
-        {/* Manager Contact Section */}
 {docInfo.managerContacts && docInfo.managerContacts.length > 0 && (
   <div className="mt-6 max-w-md bg-white border border-gray-200 rounded-2xl shadow-sm p-5">
     <p className="text-sm text-gray-500">Need Help?</p>
@@ -323,18 +323,42 @@ export const Appoinment = () => {
     </p>
 
     <div className="mt-3 flex flex-col gap-2">
-      {docInfo.managerContacts.map((number, index) => (
-        <a
-          key={index}
-          href={`tel:${number}`}
-          className="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200"
+      {docInfo.managerContacts.map((number, index) => {
+        // If user not logged in, hide last 5 digits
+        const maskedNumber = number.slice(0, number.length - 4) + "****";
+
+        return (
+          <div key={index}>
+            {token ? (
+              // Logged in → show full number
+              <a
+                href={`tel:${number}`}
+                className="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200"
+              >
+                📞 {number}
+              </a>
+            ) : (
+              // Not logged in → show masked number
+              <p className="text-gray-600 font-medium">
+                📞 {maskedNumber}
+              </p>
+            )}
+          </div>
+        );
+      })}
+
+      {!token && (
+        <p
+          onClick={() => navigate("/login")}
+          className="text-sm text-blue-600 cursor-pointer hover:underline mt-2"
         >
-          📞 {number}
-        </a>
-      ))}
+          Login to view doctor manager's number
+        </p>
+      )}
     </div>
   </div>
 )}
+
 
 
 

@@ -9,8 +9,6 @@
 //   const [showMenu, setShowMenu] = useState(false)
 //   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-
-  
 //   const logout=()=>{
 //     setToken(false)
 //     localStorage.removeItem('token')
@@ -112,7 +110,6 @@
 
 // export default Navbar;
 
-
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
@@ -120,8 +117,7 @@ import { assets } from "../assets/assets_frontend/assets";
 import { AppContext } from "../context/AppContext";
 
 /* ---------- FUZZY SEARCH (SAME AS BEFORE) ---------- */
-const normalize = (text = "") =>
-  text.toLowerCase().replace(/[^a-z]/g, "");
+const normalize = (text = "") => text.toLowerCase().replace(/[^a-z]/g, "");
 
 const isFuzzyMatch = (source, query) => {
   source = normalize(source);
@@ -169,17 +165,19 @@ const Navbar = () => {
   };
 
   const filteredDoctors = doctors.filter(
-    (d) => isFuzzyMatch(d.name, query) || isFuzzyMatch(d.speciality, query)
+    (d) => isFuzzyMatch(d.name, query) || isFuzzyMatch(d.speciality, query),
   );
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
-      <div className="mx-7 sm:mx-[10%] py-4 border-b border-b-gray-300">
+      <div className="mx-6 sm:mx-[10%] sm:py-3 py-4 border-b border-b-gray-300">
         <ul className="flex items-center justify-between font-medium">
-
           {/* LOGO */}
           <div
-            onClick={() => navigate("/")}
+            onClick={() => {
+              navigate("/");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="font-bold text-3xl text-blue-700 cursor-pointer"
           >
             Good<span className="text-green-500">Life</span>
@@ -207,53 +205,54 @@ const Navbar = () => {
           </div>
 
           {/* RIGHT SECTION */}
-          <div className="flex items-center gap-3 relative">
-
+          <div className="flex items-center gap-2 sm:gap-3 relative">
             {/* SEARCH ICON */}
-            <IoIosSearch
-              className="text-2xl cursor-pointer mr-3"
-              onClick={() => setShowSearch((p) => !p)}
-            />
+            <div ref={searchRef}>
+              <IoIosSearch
+                className="text-2xl cursor-pointer mr-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowSearch((prev) => !prev);
+                  setShowProfileMenu(false);
+                  setShowMenu(false);
+                }}
+              />
 
-            {/* SEARCH BOX */}
-            {showSearch && (
-              <div
-                ref={searchRef}
-                className="absolute right-0 top-10 w-72 bg-white border rounded shadow-lg p-3 z-50"
-              >
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search doctor or speciality"
-                  className="w-full border px-3 py-2 rounded outline-none"
-                />
-
-                <div className="max-h-60 overflow-y-auto mt-2">
-                  {filteredDoctors.length ? (
-                    filteredDoctors.map((doc) => (
-                      <div
-                        key={doc._id}
-                        onClick={() => {
-                          navigate(`/appoinment/${doc._id}`);
-                          setShowSearch(false);
-                          setQuery("");
-                        }}
-                        className="p-2 hover:bg-gray-100 cursor-pointer rounded"
-                      >
-                        <p className="font-medium">{doc.name}</p>
-                        <p className="text-xs text-gray-500">
-                          {doc.speciality}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-center text-gray-500 text-sm py-2">
-                      No result found
-                    </p>
-                  )}
+              {showSearch && (
+                <div className="absolute right-0 top-10 w-72 bg-white border rounded shadow-lg p-3 z-50">
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search doctor or speciality"
+                    className="w-full border px-3 py-2 rounded outline-none"
+                  />
+                  <div className="max-h-60 overflow-y-auto mt-2">
+                    {filteredDoctors.length ? (
+                      filteredDoctors.map((doc) => (
+                        <div
+                          key={doc._id}
+                          onClick={() => {
+                            navigate(`/appoinment/${doc._id}`);
+                            setShowSearch(false);
+                            setQuery("");
+                          }}
+                          className="p-2 hover:bg-gray-100 cursor-pointer rounded"
+                        >
+                          <p className="font-medium">{doc.name}</p>
+                          <p className="text-xs text-gray-500">
+                            {doc.speciality}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 text-sm py-2">
+                        No result found
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* PROFILE (ORIGINAL CSS RESTORED) */}
             {token ? (
@@ -267,7 +266,7 @@ const Navbar = () => {
                 </div>
 
                 {showProfileMenu && (
-                  <div className="absolute right-6 md:right-20 lg:right-38 top-14 z-20 min-w-48 bg-stone-100 rounded flex flex-col gap-2 p-4 text-base text-gray-600">
+                  <div className="absolute right-2 sm:right-6 md:right-20 lg:right-38 top-14 z-20 min-w-48 bg-stone-100 rounded flex flex-col gap-2 p-4 text-base text-gray-600">
                     <p
                       onClick={() => {
                         navigate("/my-profile");
@@ -298,9 +297,13 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={() => navigate("/login")}
-                className="bg-blue-600 text-white px-8 py-3 rounded-full font-light"
+                className="bg-blue-600 mr-1 text-white px-3 py-2 sm:px-8 sm:py-3 rounded-full text-xs sm:text-sm font-light whitespace-nowrap"
               >
-                Create account
+                {/* Mobile Screen */}
+                <span className="sm:hidden">Sign Up</span>
+
+                {/* Tablet + Laptop Screen */}
+                <span className="hidden sm:inline">Create Account</span>
               </button>
             )}
 
@@ -322,7 +325,9 @@ const Navbar = () => {
         } md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}
       >
         <div className="flex items-center justify-between px-5 py-6">
-          <div className="font-bold text-3xl text-blue-700">GoodLife</div>
+          <div className="font-bold text-3xl text-blue-700">
+            Good<span className="text-green-500">Life</span>
+          </div>
           <img
             className="w-7"
             onClick={() => setShowMenu(false)}
@@ -350,7 +355,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-

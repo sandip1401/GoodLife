@@ -21,7 +21,7 @@ const SpecilityMenu = () => {
             key={index}
             to={`/doctors/${item.speciality}`}
           >
-            <img className="w-18 sm:w-24 mb-2" src={item.image} alt="" />
+            <img className="w-24 sm:w-18 mb-2" src={item.image} alt="" />
             <p>{item.speciality}</p>
           </Link>
         ))}

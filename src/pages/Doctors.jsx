@@ -14,7 +14,7 @@ export default function Doctors() {
     let filtered = doctors.filter((doc) => doc.available === true);
 
     if (speciality) {
-      filtered = doctors.filter((doc) => doc.speciality === speciality);
+      filtered = filtered.filter((doc) => doc.speciality === speciality);
     }
     setFilterDoc(filtered);
   };
@@ -47,7 +47,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/General physician")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "General physician" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "General physician" ? "bg-indigo-100 text-black" : ""}`}
           >
             General physician
           </p>
@@ -57,7 +57,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Gynecologist")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Gynecologist
           </p>
@@ -67,7 +67,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Dermatologist")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Dermatologist
           </p>
@@ -77,7 +77,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Pediatricians")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""}`}
           >
             Pediatricians
           </p>
@@ -87,7 +87,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Neurologist")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Neurologist
           </p>
@@ -97,7 +97,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Gastroenterologist")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Gastroenterologist
           </p>
@@ -107,7 +107,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Cardiologist")
             }
-            className={`w-[94vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Cardiologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-[83.5vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Cardiologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Cardiologist
           </p>
