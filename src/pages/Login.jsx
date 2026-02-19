@@ -117,13 +117,13 @@ export default function Login() {
             </div>
 
             <div className="w-full">
-              <p>Address</p>
+              <p>Email (Optional)</p>
               <input
-                type="text"
+                type="email"
                 className="border border-zinc-300 rounded w-full p-2 mt-1"
-                onChange={(e) => setAddress(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
-                required
+                required={false}
               />
             </div>
 
@@ -141,20 +141,36 @@ export default function Login() {
                 <option value="Other">Other</option>
               </select>
             </div>
+
+            <div className="w-full">
+              <p>Address</p>
+              <input
+                type="text"
+                className="border border-zinc-300 rounded w-full p-2 mt-1"
+                onChange={(e) => setAddress(e.target.value)}
+                disabled={loading}
+                required
+              />
+            </div>
           </>
         )}
 
         {/* ===== COMMON ===== */}
-        <div className="w-full">
-          <p>Email (Optional)</p>
-          <input
-            type="email"
-            className="border border-zinc-300 rounded w-full p-2 mt-1"
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-            required={false}
-          />
-        </div>
+        {state === "Login" && (
+          <div className="w-full">
+            <p>Phone</p>
+            <input
+              type="text"
+              value={phone}
+              className="border border-zinc-300 rounded w-full p-2 mt-1"
+              onChange={(e) =>
+                setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
+              }
+              disabled={loading}
+              required
+            />
+          </div>
+        )}
 
         <div className="w-full">
           <p>Password</p>
