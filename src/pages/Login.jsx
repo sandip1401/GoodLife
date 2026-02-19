@@ -43,7 +43,7 @@ export default function Login() {
         }
       } else {
         const { data } = await axios.post(backendUrl + "/api/user/login", {
-          email,
+          phone,
           password,
         });
 
@@ -64,7 +64,7 @@ export default function Login() {
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
-      <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border border-zinc-200 rounded-xl text-zinc-600 text-sm shadow-xl">
+      <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[3px] sm:min-w-96 border border-zinc-200 rounded-xl text-zinc-600 text-sm shadow-xl">
         <p className="text-2xl font-semibold">
           {state === "Sign Up" ? "Create Account" : "Login"}
         </p>
@@ -146,13 +146,13 @@ export default function Login() {
 
         {/* ===== COMMON ===== */}
         <div className="w-full">
-          <p>Email</p>
+          <p>Email (Optional)</p>
           <input
             type="email"
             className="border border-zinc-300 rounded w-full p-2 mt-1"
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
-            required
+            required={false}
           />
         </div>
 

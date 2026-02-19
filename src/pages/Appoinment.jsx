@@ -76,7 +76,7 @@ export const Appoinment = () => {
         }
       }
 
-      while (startTime < endTime) {
+      while (startTime <= endTime) {
         // Convert to 12 hour format for user
         let formattedTime = startTime.toLocaleTimeString("en-IN", {
           hour: "2-digit",
@@ -166,8 +166,7 @@ export const Appoinment = () => {
     }
   }, [docInfo]);
 
-  useEffect(() => {
-  }, [docSlots]);
+  useEffect(() => {}, [docSlots]);
 
   if (!doctors) {
     return <div>Loading doctors...</div>;
@@ -194,14 +193,24 @@ export const Appoinment = () => {
             <img className="h-4 w-4" src={assets.verified_icon} alt="" />{" "}
           </p>
 
-          <div className="flex items-center gap-1 mt-2 text-gray-600">
-            <p>{docInfo.degree}</p>
-            <p>-</p>
-            <p>{docInfo.speciality}</p>
-            <button className="border border-gray-200 rounded-full text-xs px-2 py-0.5">
-              {docInfo.experience}
-            </button>
-          </div>
+          <div className="flex items-center gap-1 text-gray-600">
+    <p>{docInfo.degree}</p>
+    <p>-</p>
+
+    {/* Laptop */}
+    <p className="hidden sm:block text-gray-600">
+      {docInfo.speciality}
+    </p>
+
+    <button className="border border-gray-200 rounded-full text-xs px-2 py-0.5">
+      {docInfo.experience}
+    </button>
+  </div>
+
+  {/* Mobile */}
+  <p className="block sm:hidden mt-0.5 text-gray-600">
+    {docInfo.speciality}
+  </p>
 
           <div className="text-gray-800 text-sm mt-3">
             <p className="flex items-center gap-1 font-semibold">
@@ -315,54 +324,50 @@ export const Appoinment = () => {
           Book an appointment
         </button>
 
-{docInfo.managerContacts && docInfo.managerContacts.length > 0 && (
-  <div className="mt-6 max-w-md bg-white border border-gray-200 rounded-2xl shadow-sm p-5">
-    <p className="text-sm text-gray-500">Need Help?</p>
-    <p className="text-lg font-semibold text-gray-800 mt-1">
-      Doctor Manager Contact
-    </p>
+        {docInfo.managerContacts && docInfo.managerContacts.length > 0 && (
+          <div className="mt-6 max-w-md bg-white border border-gray-200 rounded-2xl shadow-sm p-5">
+            <p className="text-sm text-gray-500">Need Help?</p>
+            <p className="text-lg font-semibold text-gray-800 mt-1">
+              Doctor Manager Contact
+            </p>
 
-    <div className="mt-3 flex flex-col gap-2">
-      {docInfo.managerContacts.map((number, index) => {
-        // If user not logged in, hide last 5 digits
-        const maskedNumber = number.slice(0, number.length - 4) + "****";
+            <div className="mt-3 flex flex-col gap-2">
+              {docInfo.managerContacts.map((number, index) => {
+                // If user not logged in, hide last 5 digits
+                const maskedNumber =
+                  number.slice(0, number.length - 4) + "****";
 
-        return (
-          <div key={index}>
-            {token ? (
-              // Logged in → show full number
-              <a
-                href={`tel:${number}`}
-                className="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200"
-              >
-                📞 {number}
-              </a>
-            ) : (
-              // Not logged in → show masked number
-              <p className="text-gray-600 font-medium">
-                📞 {maskedNumber}
-              </p>
-            )}
+                return (
+                  <div key={index}>
+                    {token ? (
+                      // Logged in → show full number
+                      <a
+                        href={`tel:${number}`}
+                        className="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200"
+                      >
+                        📞 {number}
+                      </a>
+                    ) : (
+                      // Not logged in → show masked number
+                      <p className="text-gray-600 font-medium">
+                        📞 {maskedNumber}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+
+              {!token && (
+                <p
+                  onClick={() => navigate("/login")}
+                  className="text-sm text-blue-600 cursor-pointer hover:underline mt-2"
+                >
+                  Login to view doctor manager's number
+                </p>
+              )}
+            </div>
           </div>
-        );
-      })}
-
-      {!token && (
-        <p
-          onClick={() => navigate("/login")}
-          className="text-sm text-blue-600 cursor-pointer hover:underline mt-2"
-        >
-          Login to view doctor manager's number
-        </p>
-      )}
-    </div>
-  </div>
-)}
-
-
-
-
-
+        )}
       </div>
 
       <div className="mt-20">
@@ -384,8 +389,17 @@ export const Appoinment = () => {
               <div className="p-2">
                 <div className="flex items-center gap-2 text-sm text-green-500 text-center font-normal">
                   <p className="w-2 h-2 bg-green-500 rounded-full"></p>
-                  <p>Available</p>
+                  <p>
+                    Available on{" "}
+                    {item.weeklyAvailability &&
+                    item.weeklyAvailability.length > 0
+                      ? item.weeklyAvailability
+                          .map((av) => av.day.slice(0, 3))
+                          .join(", ")
+                      : "N/A"}
+                  </p>
                 </div>
+
                 <p className="text-lg font-medium text-gray-900">{item.name}</p>
                 <p className="text-sm text-gray-600">{item.speciality}</p>
               </div>
