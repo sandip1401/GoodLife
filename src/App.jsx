@@ -12,11 +12,12 @@ import Footer from './components/Footer'
 import { Appoinment } from './pages/Appoinment'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Blood from './pages/Blood'
 
 
 export default function App() {
   return (
-    <div className='pt-20 mx-7 sm:mx-[10%] '>
+<div className="pt-20 mx-5 sm:mx-7 md:mx-[5%] lg:mx-[10%]">
        <ToastContainer />
       <Navbar/>
       <Routes>
@@ -24,6 +25,7 @@ export default function App() {
         <Route path='/doctors' element={<Doctors/>}/>
         <Route path='/doctors/:speciality' element={<Doctors/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/blood' element={<Blood/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/my-profile' element={<MyProfile/>}/>

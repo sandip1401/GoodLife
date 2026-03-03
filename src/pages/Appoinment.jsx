@@ -5,6 +5,58 @@ import { assets } from "../assets/assets_frontend/assets";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+function getMonthlyWeekdayDates(year, month, dayOfWeek, positions) {
+  const result = [];
+
+  const firstDay = new Date(year, month, 1);
+  const firstDayWeek = firstDay.getDay();
+
+  const diff = (dayOfWeek - firstDayWeek + 7) % 7;
+  const firstOccurrence = new Date(year, month, 1 + diff);
+
+  const allDates = [];
+  let current = new Date(firstOccurrence);
+
+  while (current.getMonth() === month) {
+    allDates.push(new Date(current));
+    current.setDate(current.getDate() + 7);
+  }
+
+  positions.forEach((pos) => {
+    if (pos === "last") {
+      if (allDates.length > 0) {
+        result.push(allDates[allDates.length - 1]);
+      }
+    } else {
+      const map = {
+        first: 0,
+        second: 1,
+        third: 2,
+        fourth: 3,
+        fifth: 4,
+      };
+
+      if (map[pos] !== undefined && allDates[map[pos]]) {
+        result.push(allDates[map[pos]]);
+      }
+    }
+  });
+
+  return result;
+}
+
+const specialityInBengali = {
+  "General physician": " ( সাধারণ চিকিৎসক )",
+  Gynecologist: "( স্ত্রীরোগ বিশেষজ্ঞ )",
+  Dermatologist: "( ত্বক বিশেষজ্ঞ )",
+  Pediatricians: "( শিশু বিশেষজ্ঞ )",
+  Neurologist: "( স্নায়ু বিশেষজ্ঞ )",
+  Neuropsychiatrist: "( স্নায়ু ও মনোরোগ বিশেষজ্ঞ )",
+  Dentist: "( দন্ত বিশেষজ্ঞ )",
+  Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
+  Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
+};
+
 export const Appoinment = () => {
   const { docId } = useParams();
   const { doctors, currencySymbol, token, getDoctorsData, backendUrl } =
@@ -39,69 +91,132 @@ export const Appoinment = () => {
     let today = new Date();
     let newDocSlots = [];
 
-    for (let i = 0; i < 10; i++) {
+    let maxDaysToCheck = 0;
+
+    docInfo.weeklyAvailability.forEach((slot) => {
+      if (slot.recurrenceType === "weekly") {
+        maxDaysToCheck = Math.max(maxDaysToCheck, 8);
+      }
+
+      if (slot.recurrenceType === "monthly") {
+        maxDaysToCheck = Math.max(maxDaysToCheck, 32);
+      }
+
+      if (slot.recurrenceType === "interval") {
+        maxDaysToCheck = Math.max(maxDaysToCheck, 60);
+      }
+    });
+
+    // fallback
+    if (maxDaysToCheck === 0) {
+      maxDaysToCheck = 30;
+    }
+
+    for (let i = 0; i < maxDaysToCheck; i++) {
+      // check next 30 days
       let currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i);
 
-      // Get full weekday name (Monday, Tuesday...)
       const currentDayName = currentDate.toLocaleDateString("en-US", {
         weekday: "long",
       });
 
-      // Check if doctor works on this day
-      const availabilityForDay = docInfo.weeklyAvailability.find(
-        (item) => item.day === currentDayName,
-      );
+      let matchedSlots = [];
 
-      if (!availabilityForDay) continue; // skip if not available
+      docInfo.weeklyAvailability.forEach((slot) => {
+        const dayIndexMap = {
+          Sunday: 0,
+          Monday: 1,
+          Tuesday: 2,
+          Wednesday: 3,
+          Thursday: 4,
+          Friday: 5,
+          Saturday: 6,
+        };
 
-      // Convert 24hr string to hours & minutes
-      const [startHour, startMinute] = availabilityForDay.startTime.split(":");
-      const [endHour, endMinute] = availabilityForDay.endTime.split(":");
+        if (dayIndexMap[slot.day] !== currentDate.getDay()) return;
 
-      let startTime = new Date(currentDate);
-      startTime.setHours(parseInt(startHour), parseInt(startMinute), 0);
+        // ================= WEEKLY =================
+        if (slot.recurrenceType === "weekly") {
+          matchedSlots.push(slot);
+        }
 
-      let endTime = new Date(currentDate);
-      endTime.setHours(parseInt(endHour), parseInt(endMinute), 0);
+        // ================= MONTHLY =================
+        else if (slot.recurrenceType === "monthly") {
+          const year = currentDate.getFullYear();
+          const month = currentDate.getMonth();
+          const dayOfWeek = currentDate.getDay();
+
+          const dates = getMonthlyWeekdayDates(
+            year,
+            month,
+            dayOfWeek,
+            slot.weekPositions || [],
+          );
+
+          const isMatch = dates.some(
+            (d) => d.getDate() === currentDate.getDate(),
+          );
+
+          if (isMatch) {
+            matchedSlots.push(slot);
+          }
+        }
+
+        // ================= INTERVAL =================
+        else if (slot.recurrenceType === "interval") {
+          const start = new Date(slot.startDate);
+          const diffInMs = currentDate - start;
+
+          const diffInWeeks = Math.floor(diffInMs / (7 * 24 * 60 * 60 * 1000));
+
+          if (diffInWeeks >= 0 && diffInWeeks % slot.interval === 0) {
+            matchedSlots.push(slot);
+          }
+        }
+      });
+
+      if (matchedSlots.length === 0) continue;
 
       let timeSlots = [];
 
-      // If today → prevent past booking
-      if (i === 0) {
-        const now = new Date();
-        if (startTime < now) {
-          startTime = new Date(now);
-          startTime.setMinutes(now.getMinutes() > 30 ? 45 : 30, 0, 0);
+      matchedSlots.forEach((availabilityForDay) => {
+        const [startHour, startMinute] =
+          availabilityForDay.startTime.split(":");
+
+        const [endHour, endMinute] = availabilityForDay.endTime.split(":");
+
+        let startTime = new Date(currentDate);
+        startTime.setHours(parseInt(startHour), parseInt(startMinute), 0);
+
+        let endTime = new Date(currentDate);
+        endTime.setHours(parseInt(endHour), parseInt(endMinute), 0);
+
+        while (startTime < endTime) {
+          let formattedTime = startTime.toLocaleTimeString("en-IN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+
+          let day = startTime.getDate();
+          let month = startTime.getMonth() + 1;
+          let year = startTime.getFullYear();
+
+          const slotDate = day + "_" + month + "_" + year;
+
+          const isBooked =
+            docInfo.slots_booked?.[slotDate]?.includes(formattedTime);
+
+          timeSlots.push({
+            datetime: new Date(startTime),
+            time: formattedTime,
+            isBooked,
+          });
+
+          startTime.setMinutes(startTime.getMinutes() + 15);
         }
-      }
-
-      while (startTime <= endTime) {
-        // Convert to 12 hour format for user
-        let formattedTime = startTime.toLocaleTimeString("en-IN", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        });
-
-        let day = startTime.getDate();
-        let month = startTime.getMonth() + 1;
-        let year = startTime.getFullYear();
-
-        const slotDate = day + "_" + month + "_" + year;
-
-        const isBooked =
-          docInfo.slots_booked?.[slotDate]?.includes(formattedTime);
-
-        timeSlots.push({
-          datetime: new Date(startTime),
-          time: formattedTime,
-          isBooked,
-        });
-
-        // increment by 15 minutes
-        startTime.setMinutes(startTime.getMinutes() + 15);
-      }
+      });
 
       if (timeSlots.length > 0) {
         newDocSlots.push(timeSlots);
@@ -151,6 +266,14 @@ export const Appoinment = () => {
   }, [docId]);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant", // use "smooth" if you want animation
+    });
+  }, [docId]);
+
+  useEffect(() => {
     if (docInfo && doctors.length) {
       const related = doctors.filter(
         (doc) =>
@@ -187,30 +310,43 @@ export const Appoinment = () => {
           />
         </div>
 
-        <div className="border border-gray-400 rounded-md w-full p-4 sm:p-6 lg:p-8">
+        <div className="border border-gray-400 rounded-md w-full p-4 sm:p-6 lg:p-6">
           <p className="flex items-center gap-2 text-xl sm:text-2xl lg:text-3xl text-gray-800">
             {docInfo.name}{" "}
             <img className="h-4 w-4" src={assets.verified_icon} alt="" />{" "}
           </p>
 
           <div className="flex items-center gap-1 text-gray-600">
-    <p>{docInfo.degree}</p>
-    <p>-</p>
+            <p>{docInfo.degree}</p>
+            <p className="hidden sm:block">-</p>
 
-    {/* Laptop */}
-    <p className="hidden sm:block text-gray-600">
-      {docInfo.speciality}
-    </p>
+            {/* Laptop */}
+            <p className="hidden sm:block text-gray-600">
+              {docInfo.speciality}
+            </p>
+
+<button className="hidden sm:inline-block border border-gray-200 rounded-full text-xs px-2 py-0.5">              {docInfo.experience}
+            </button>
+          </div>
+
+{/* Mobile */}
+<div className="sm:hidden mt-1 text-gray-600">
+  
+  {/* English + Button */}
+  <div className="flex items-center gap-2">
+    <p>{docInfo.speciality}</p>
 
     <button className="border border-gray-200 rounded-full text-xs px-2 py-0.5">
       {docInfo.experience}
     </button>
   </div>
 
-  {/* Mobile */}
-  <p className="block sm:hidden mt-0.5 text-gray-600">
-    {docInfo.speciality}
+  {/* Bengali below */}
+  <p className="text-xs text-gray-500 mt-0.5">
+    {specialityInBengali[docInfo.speciality] || ""}
   </p>
+
+</div>
 
           <div className="text-gray-800 text-sm mt-3">
             <p className="flex items-center gap-1 font-semibold">
@@ -228,12 +364,22 @@ export const Appoinment = () => {
             </span>
           </div>
 
+          <div className="flex items-center gap-1.5 mt-1">
+            <p className="text-gray-600 text-base">City & Pincode:</p>
+            <span className="text-gray-600">{docInfo.city}</span>
+          </div>
+
           {/* Location Section */}
           {docInfo.address1 && (
-            <div className="mt-2 text-base text-gray-700">
+            <div className=" text-base text-gray-600">
               {/* Desktop View (single line) */}
               <p className="hidden sm:block">
-                <span className="font-medium text-gray-600">Location:</span>{" "}
+                <span
+                  className="font-medium
+                 text-gray-600"
+                >
+                  Location:
+                </span>{" "}
                 {docInfo.address1}
                 {docInfo.address2 && (
                   <>

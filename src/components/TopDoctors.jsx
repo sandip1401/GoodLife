@@ -5,6 +5,19 @@ import { AppContext } from "../context/AppContext";
 const TopDoctors = () => {
   const navigate = useNavigate();
   const { doctors } = useContext(AppContext);
+
+  const specialityInBengali = {
+    "General physician": " ( সাধারণ চিকিৎসক )",
+    Gynecologist: "( স্ত্রীরোগ বিশেষজ্ঞ )",
+    Dermatologist: "( ত্বক বিশেষজ্ঞ )",
+    Pediatricians: "( শিশু বিশেষজ্ঞ )",
+    Neurologist: "( স্নায়ু বিশেষজ্ঞ )",
+    Neuropsychiatrist: "( স্নায়ু ও মনোরোগ বিশেষজ্ঞ )",
+    Dentist: "( দন্ত বিশেষজ্ঞ )",
+    Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
+    Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
+  };
+
   return (
     <div className="flex flex-col items-center gap-4 my-10 text-gray-900 mx-6">
       <h1 className="text-center font-semibold text-3xl">
@@ -34,7 +47,12 @@ const TopDoctors = () => {
                 </p>
               </div>
               <p className="text-lg font-medium text-gray-900">{item.name}</p>
-              <p className="text-sm text-gray-600">{item.speciality}</p>
+              <p className="text-sm text-gray-600">
+                {item.speciality}
+                <span className="ml-1 text-xs text-gray-500 md:hidden">
+                  {specialityInBengali[item.speciality] || ""}
+                </span>
+              </p>
             </div>
           </div>
         ))}

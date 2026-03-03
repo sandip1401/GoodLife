@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 export const AppContext = createContext();
 const AppContextProvider = (props) => {
@@ -72,6 +73,14 @@ const AppContextProvider = (props) => {
     }
   };
 
+  const logoutUser = () => {
+  localStorage.removeItem("token");
+  setToken(false);
+  setUser(null);
+  setAppointments([]);
+  toast.info("Session expired. Please login again.");
+};
+
   useEffect(() => {
      if (token) {
         getUserProfile();
@@ -81,6 +90,33 @@ const AppContextProvider = (props) => {
  useEffect(() => {
   getDoctorsData();
 }, []);
+
+useEffect(() => {
+  if (!token) return;
+
+  try {
+    const decoded = jwtDecode(token);
+
+    const expiryTime = decoded.exp * 1000; // convert to ms
+    const currentTime = Date.now();
+
+    const timeout = expiryTime - currentTime;
+
+    if (timeout <= 0) {
+      logoutUser();
+    } else {
+      const timer = setTimeout(() => {
+        logoutUser();
+      }, timeout);
+
+      return () => clearTimeout(timer);
+    }
+  } catch (error) {
+    logoutUser();
+  }
+}, [token]);
+
+
 
 
   const value = {

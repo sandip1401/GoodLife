@@ -168,10 +168,21 @@ const Navbar = () => {
     (d) => isFuzzyMatch(d.name, query) || isFuzzyMatch(d.speciality, query),
   );
 
+  const specialityInBengali = {
+  "General physician": " ( সাধারণ চিকিৎসক )",
+  Gynecologist: "( স্ত্রীরোগ বিশেষজ্ঞ )",
+  Dermatologist: "( ত্বক বিশেষজ্ঞ )",
+  Pediatricians: "( শিশু বিশেষজ্ঞ )",
+  Neurologist: "( স্নায়ু বিশেষজ্ঞ )",
+  Neuropsychiatrist: "( স্নায়ু ও মনোরোগ বিশেষজ্ঞ )",
+  Dentist: "( দন্ত বিশেষজ্ঞ )",
+  Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
+  Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
+};
+
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
-      <div className="mx-6 sm:mx-[10%] sm:py-3 py-4 border-b border-b-gray-300">
-        <ul className="flex items-center justify-between font-medium">
+<div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] sm:py-3 py-4 border-b border-b-gray-300">        <ul className="flex items-center justify-between font-medium">
           {/* LOGO */}
           <div
             onClick={() => {
@@ -202,6 +213,12 @@ const Navbar = () => {
                 )}
               </NavLink>
             ))}
+            <button
+              onClick={() => navigate("/blood")}
+              className="ml-3 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all active:scale-95"
+            >
+              NEED BLOOD
+            </button>
           </div>
 
           {/* RIGHT SECTION */}
@@ -241,6 +258,9 @@ const Navbar = () => {
                           <p className="font-medium">{doc.name}</p>
                           <p className="text-xs text-gray-500">
                             {doc.speciality}
+                            <span className="ml-1 text-xs text-gray-500 md:hidden">
+                    {specialityInBengali[doc.speciality] || ""}
+                  </span>
                           </p>
                         </div>
                       ))
@@ -266,7 +286,7 @@ const Navbar = () => {
                 </div>
 
                 {showProfileMenu && (
-                  <div className="absolute right-2 sm:right-6 md:right-20 lg:right-38 top-14 z-20 min-w-48 bg-stone-100 rounded flex flex-col gap-2 p-4 text-base text-gray-600">
+                  <div className="absolute right-2 sm:right-0 top-12 z-20 min-w-48 bg-stone-100 rounded flex flex-col gap-2 p-4 text-base text-gray-600">
                     <p
                       onClick={() => {
                         navigate("/my-profile");
@@ -341,6 +361,9 @@ const Navbar = () => {
           </NavLink>
           <NavLink onClick={() => setShowMenu(false)} to="/doctors">
             <p className="px-4 py-2 rounded inline-block">ALL DOCTORS</p>
+          </NavLink>
+          <NavLink onClick={() => setShowMenu(false)} to="/blood">
+            <p className="px-4 py-2 rounded inline-block">NEED BLOOD</p>
           </NavLink>
           <NavLink onClick={() => setShowMenu(false)} to="/about">
             <p className="px-4 py-2 rounded inline-block">ABOUT</p>

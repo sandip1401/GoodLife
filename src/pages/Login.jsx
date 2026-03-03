@@ -100,6 +100,21 @@ export default function Login() {
             </div>
 
             <div className="w-full">
+              <p>Gender</p>
+              <select
+                className="border border-zinc-300 rounded w-full p-2 mt-1"
+                onChange={(e) => setGender(e.target.value)}
+                disabled={loading}
+                required
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div className="w-full">
               <p>Phone</p>
               <input
                 type="text"
@@ -116,42 +131,10 @@ export default function Login() {
               />
             </div>
 
-            <div className="w-full">
-              <p>Email (Optional)</p>
-              <input
-                type="email"
-                className="border border-zinc-300 rounded w-full p-2 mt-1"
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-                required={false}
-              />
-            </div>
 
-            <div className="w-full">
-              <p>Gender</p>
-              <select
-                className="border border-zinc-300 rounded w-full p-2 mt-1"
-                onChange={(e) => setGender(e.target.value)}
-                disabled={loading}
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+            
 
-            <div className="w-full">
-              <p>Address</p>
-              <input
-                type="text"
-                className="border border-zinc-300 rounded w-full p-2 mt-1"
-                onChange={(e) => setAddress(e.target.value)}
-                disabled={loading}
-                required
-              />
-            </div>
+            
           </>
         )}
 
