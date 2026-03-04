@@ -547,7 +547,9 @@ export const Appoinment = () => {
                 </div>
 
                 <p className="text-lg font-medium text-gray-900">{item.name}</p>
-                <p className="text-sm text-gray-600">{item.speciality}</p>
+                <p className="text-sm text-gray-600">{item.speciality}<span className="ml-1 text-xs text-gray-500 md:hidden">
+                    {specialityInBengali[item.speciality] || ""}
+                  </span></p>
               </div>
             </div>
           ))}
