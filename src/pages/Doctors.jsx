@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import { assets } from "../assets/assets_frontend/assets";
 
 export default function Doctors() {
   const { speciality } = useParams();
@@ -339,29 +340,66 @@ export default function Doctors() {
             <div
               key={item._id}
               onClick={() => navigate(`/appoinment/${item._id}`)}
-              className="border border-blue-200 rounded-lg overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
+              className="border border-blue-200 rounded-lg cursor-pointer 
+                         hover:translate-y-[-5px] transition-all duration-500 
+                         flex flex-col h-32 overflow-hidden"
             >
-              <img className="bg-blue-50" src={item.image} alt="" />
-              <div className="p-2">
-                <div className="flex items-center gap-2 text-sm text-green-500 text-center font-normal">
-                  <p className="w-2 h-2 bg-green-500 rounded-full"></p>
-                  <p>
-                    Available on{" "}
-                    {item.weeklyAvailability &&
-                    item.weeklyAvailability.length > 0
-                      ? item.weeklyAvailability
-                          .map((av) => av.day.slice(0, 3))
-                          .join(", ")
-                      : "N/A"}
+              {/* TOP SECTION (Image + Data) */}
+              <div className="flex items-center flex-1 overflow-hidden">
+                {/* LEFT IMAGE */}
+                <div className="w-1/4 h-full">
+                  <img
+                    className="w-full h-full object-cover bg-blue-50"
+                    src={item.image}
+                    alt=""
+                  />
+                </div>
+
+                {/* RIGHT DATA */}
+                <div className="w-3/4 p-3 flex flex-col justify-center">
+                  <p className="flex items-center gap-1 text-lg font-medium text-gray-900 truncate">
+                    <span className="truncate">{item.name}</span>
+                    <img
+                      className="w-3 h-3"
+                      src={assets.verified_icon}
+                      alt="verified"
+                    />
+                  </p>
+
+                  <div className="flex items-center gap-1 text-sm text-green-500 leading-none my-0.5">
+                    {" "}
+                    <p className="w-2 h-2 bg-green-500 rounded-full"></p>
+                    <p>
+                      Available on{" "}
+                      {item.weeklyAvailability &&
+                      item.weeklyAvailability.length > 0
+                        ? item.weeklyAvailability
+                            .slice(0, 3) // take maximum 3 days
+                            .map((av) => av.day.slice(0, 3)) // take first 3 letters
+                            .join(", ")
+                        : "N/A"}
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-gray-600 font-medium">
+                    {item.speciality}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    {specialityInBengali[item.speciality] || ""}
+                  </p>
+
+                  <p className="text-sm text-gray-600 mb-1">
+                    Fee:<span className="text-black"> ₹ {item.fees}</span>
                   </p>
                 </div>
-                <p className="text-lg font-medium text-gray-900">{item.name}</p>
-                <p className="text-sm text-gray-600">
-                  {item.speciality}
-                  <span className="ml-1 text-xs text-gray-500 md:hidden">
-                    {specialityInBengali[item.speciality] || ""}
-                  </span>
-                </p>
+              </div>
+
+              {/* BOTTOM FULL WIDTH SECTION */}
+              <div className="border-t border-blue-200 text-center text-[11.5px] text-gray-600 py-0.5 bg-blue-50 truncate px-2">
+                <span className="truncate block">
+                  Gold Medalist in Cardiology and Research Excellence
+                </span>
               </div>
             </div>
           ))}
