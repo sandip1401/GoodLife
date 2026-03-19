@@ -116,6 +116,7 @@ import { IoIosSearch } from "react-icons/io";
 import { assets } from "../assets/assets_frontend/assets";
 import { AppContext } from "../context/AppContext";
 
+
 /* ---------- FUZZY SEARCH (SAME AS BEFORE) ---------- */
 const normalize = (text = "") => text.toLowerCase().replace(/[^a-z]/g, "");
 
@@ -182,17 +183,36 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
-<div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] sm:py-3 py-4 border-b border-b-gray-300">        <ul className="flex items-center justify-between font-medium">
-          {/* LOGO */}
-          <div
-            onClick={() => {
-              navigate("/");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="font-bold text-3xl text-blue-700 cursor-pointer"
-          >
-            Good<span className="text-green-500">Life</span>
-          </div>
+  <div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] py-3 border-b border-gray-300">
+
+    <ul className="flex items-center justify-between font-medium">
+
+      {/* LOGO */}
+      <li
+        onClick={() => {
+          navigate("/");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        className="cursor-pointer flex items-center gap-0"
+      >
+        <img
+          src="/logo.png"
+          alt="Doctor InCity"
+          className="w-14 -my-2 object-contain"
+        />
+
+        <div className="flex flex-col leading-none -ml-2">
+          <span className="text-4xl font-semibold bg-gradient-to-r from-[#0284c7] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
+  doctor
+</span>
+
+          <span className="text-[11px] tracking-[5px] text-gray-500 -mt-1">
+            — INCITY —
+          </span>
+        </div>
+      </li>
+
+
 
           {/* DESKTOP NAV WITH BLUE UNDERLINE */}
           <div className="hidden md:flex items-center gap-5">
@@ -214,7 +234,7 @@ const Navbar = () => {
               </NavLink>
             ))}
             <button
-              onClick={() => navigate("/blood")}
+              onClick={() => navigate("/blood-donor/rampurhat")}
               className="ml-3 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all active:scale-95"
             >
               NEED BLOOD
@@ -362,7 +382,7 @@ const Navbar = () => {
           <NavLink onClick={() => setShowMenu(false)} to="/doctors">
             <p className="px-4 py-2 rounded inline-block">ALL DOCTORS</p>
           </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/blood">
+          <NavLink onClick={() => setShowMenu(false)} to="/blood-donor/rampurhat">
             <p className="px-4 py-2 rounded inline-block">NEED BLOOD</p>
           </NavLink>
           <NavLink onClick={() => setShowMenu(false)} to="/about">

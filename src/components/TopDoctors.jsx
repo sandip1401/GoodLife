@@ -88,7 +88,7 @@ const TopDoctors = () => {
             {/* BOTTOM FULL WIDTH SECTION */}
             <div className="border-t border-blue-200 text-center text-[11px] text-gray-600 py-0.5 bg-blue-50 truncate px-2">
               <span className="truncate block">
-                Gold Medalist in Cardiology and Research Excellence
+                {item.achievement}
               </span>
             </div>
           </div>

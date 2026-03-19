@@ -12,7 +12,7 @@ export default function Doctors() {
   const { doctors, getDoctorsData } = useContext(AppContext);
 
   const specialityInBengali = {
-    "General physician": " ( সাধারণ চিকিৎসক )",
+    "General physician": "( সাধারণ চিকিৎসক )",
     Gynecologist: "( স্ত্রীরোগ বিশেষজ্ঞ )",
     Dermatologist: "( ত্বক বিশেষজ্ঞ )",
     Pediatricians: "( শিশু বিশেষজ্ঞ )",
@@ -21,6 +21,13 @@ export default function Doctors() {
     Dentist: "( দন্ত বিশেষজ্ঞ )",
     Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
     Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
+    Nephrologist: "( কিডনি রোগ বিশেষজ্ঞ )",
+    "ENT Specialist": "( নাক, কান, গলা বিশেষজ্ঞ )",
+    Homoeopath: "( হোমিওপ্যাথি বিশেষজ্ঞ )",
+    Physiotherapist: "( ফিজিওথেরাপিস্ট )",
+    "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
+    Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
+    Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
   };
 
   const applyFilter = () => {
@@ -109,7 +116,7 @@ export default function Doctors() {
                 </button>
               </div>
 
-              <div className="flex flex-col gap-4 text-sm text-gray-600">
+              <div className="flex flex-col gap-4 text-sm text-gray-600 max-h-96 overflow-y-auto">
                 {/* ===== KEEP ALL YOUR <p> SPECIALITY ITEMS HERE ===== */}
                 <p
                   onClick={() => {
@@ -121,7 +128,7 @@ export default function Doctors() {
 
                     setShowFilter(false); // 👈 CLOSE OVERLAY
                   }}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "All" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "All" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   All Doctors
                   <span className="ml-1 text-xs text-gray-600">
@@ -130,83 +137,139 @@ export default function Doctors() {
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("General physician")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "General physician" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "General physician" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   General physician
-                  <span className="ml-1 text-xs text-gray-600">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["General physician"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Gynecologist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Gynecologist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Gynecologist"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Dermatologist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Dermatologist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Dermatologist"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Pediatricians")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Pediatricians
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Pediatricians"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Neurologist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Neurologist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Neurologist"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Neuropsychiatrist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neuropsychiatrist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neuropsychiatrist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Neuropsychiatrist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Neuropsychiatrist"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Dentist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dentist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dentist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Dentist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Dentist"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Gastroenterologist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Gastroenterologist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="block text-xs text-gray-500">
                     {specialityInBengali["Gastroenterologist"]}
                   </span>
                 </p>
                 <p
                   onClick={() => handleSpecialityClick("Cardiologist")}
-                  className={`w-[82vw] whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Cardiologist" ? "bg-indigo-100 text-black" : ""}`}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Cardiologist" ? "bg-indigo-100 text-black" : ""}`}
                 >
                   Cardiologist
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs text-gray-500 break-words">
                     {specialityInBengali["Cardiologist"]}
+                  </span>
+                </p>
+                <p
+                  onClick={() => handleSpecialityClick("Nephrologist")}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Nephrologist" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  Nephrologist
+                  <span className="ml-1 text-xs text-gray-500 break-words">
+                    {specialityInBengali["Nephrologist"]}
+                  </span>
+                </p>
+                <p
+                  onClick={() => handleSpecialityClick("ENT Specialist")}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "ENT Specialist" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  ENT Specialist
+                  <span className="ml-1 text-xs text-gray-500 break-words">
+                    {specialityInBengali["ENT Specialist"]}
+                  </span>
+                </p>
+                <p
+                  onClick={() => handleSpecialityClick("Physiotherapist")}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Physiotherapist" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  Physiotherapist
+                  <span className="ml-1 text-xs text-gray-500 break-words">
+                    {specialityInBengali["Physiotherapist"]}
+                  </span>
+                </p>
+                <p
+                  onClick={() =>
+                    handleSpecialityClick("Diabetes & Thyroid Specialist")
+                  }
+                  className={`w-full  sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Diabetes & Thyroid Specialist" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  Diabetes & Thyroid Specialist
+                  <span className="block text-xs text-gray-500 ">
+                    {specialityInBengali["Diabetes & Thyroid Specialist"]}
+                  </span>
+                </p>
+                <p
+                  onClick={() => handleSpecialityClick("Orthopedic")}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Orthopedic" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  Orthopedic
+                  <span className="ml-1 text-xs text-gray-500 break-words">
+                    {specialityInBengali["Orthopedic"]}
+                  </span>
+                </p>
+                <p
+                  onClick={() => handleSpecialityClick("Ophthalmologist")}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Ophthalmologist" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  Ophthalmologist
+                  <span className="ml-1 text-xs text-gray-500 break-words">
+                    {specialityInBengali["Ophthalmologist"]}
                   </span>
                 </p>
               </div>
@@ -222,12 +285,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/General physician")
             }
-            className={`w-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "General physician" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "General physician" ? "bg-indigo-100 text-black" : ""}`}
           >
             General physician
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["General physician"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -235,12 +295,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Gynecologist")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gynecologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Gynecologist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Gynecologist"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -248,12 +305,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Dermatologist")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-full whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Dermatologist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Dermatologist"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -261,12 +315,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Pediatricians")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Pediatricians" ? "bg-indigo-100 text-black" : ""}`}
           >
             Pediatricians
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Pediatricians"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -274,12 +325,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Neurologist")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neurologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Neurologist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Neurologist"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -287,12 +335,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Neuropsychiatrist")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neuropsychiatrist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Neuropsychiatrist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Neuropsychiatrist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Neuropsychiatrist"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -300,12 +345,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Dentist")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dentist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dentist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Dentist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Dentist"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -313,12 +355,9 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Gastroenterologist")
             }
-            className={`w-[-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Gastroenterologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Gastroenterologist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Gastroenterologist"]}
-            </span>
           </p>
           <p
             onClick={() =>
@@ -326,16 +365,51 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Cardiologist")
             }
-            className={`w-full whitespace-nowrap sm:w-72 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Cardiologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Cardiologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Cardiologist
-            <span className="ml-1 text-xs text-gray-500">
-              {specialityInBengali["Cardiologist"]}
-            </span>
+          </p>
+          <p
+            onClick={() => handleSpecialityClick("Nephrologist")}
+            className={`w-56  whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Nephrologist" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            Nephrologist
+          </p>
+          <p
+            onClick={() => handleSpecialityClick("ENT Specialist")}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "ENT Specialist" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            ENT Specialist
+          </p>
+          <p
+            onClick={() => handleSpecialityClick("Physiotherapist")}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Physiotherapist" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            Physiotherapist
+          </p>
+          <p
+            onClick={() =>
+              handleSpecialityClick("Diabetes & Thyroid Specialist")
+            }
+            className={`w-56 pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Diabetes & Thyroid Specialist" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            Diabetes & Thyroid
+          </p>
+          <p
+            onClick={() => handleSpecialityClick("Orthopedic")}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Orthopedic" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            Orthopedic
+          </p>
+          <p
+            onClick={() => handleSpecialityClick("Ophthalmologist")}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Ophthalmologist" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            Ophthalmologist
           </p>
         </div>
 
-        <div className="w-full grid xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-7 mt-6 sm:mt-0">
+        <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-7 mt-6 sm:mt-0">
           {filterDoc.map((item, index) => (
             <div
               key={item._id}
@@ -366,7 +440,7 @@ export default function Doctors() {
                     />
                   </p>
 
-                  <div className="flex items-center gap-1 text-sm text-green-500 leading-none my-0.5">
+                  <div className="flex items-center gap-1 text-sm text-green-500 leading-none mb-0.5">
                     {" "}
                     <p className="w-2 h-2 bg-green-500 rounded-full"></p>
                     <p>
@@ -397,9 +471,7 @@ export default function Doctors() {
 
               {/* BOTTOM FULL WIDTH SECTION */}
               <div className="border-t border-blue-200 text-center text-[11.5px] text-gray-600 py-0.5 bg-blue-50 truncate px-2">
-                <span className="truncate block">
-                  Gold Medalist in Cardiology and Research Excellence
-                </span>
+                <span className="truncate block">{item.achievement}</span>
               </div>
             </div>
           ))}

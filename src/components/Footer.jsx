@@ -5,7 +5,7 @@ export default function Footer() {
   const navigate = useNavigate();
   return (
     <div className="mt-5">
-      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 text-sm mt-40">
+      <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-8 text-sm mt-40">
         {/*left*/}
         <div>
           <h1 className="font-bold text-3xl text-blue-700">
@@ -16,6 +16,8 @@ export default function Footer() {
             Book appointments, manage your visits, and experience a smoother,
             safer, and smarter healthcare journey with our intelligent and
             easy-to-use platform.
+            <br />
+            <span>*The avatar image of the doctor is used for visual representation only and does not depict the doctor's actual appearance.</span>
           </p>
         </div>
 

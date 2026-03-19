@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
 export default function MyProfile() {
-  const { user } = useContext(AppContext);
+const { user, donors,updateAvailability } = useContext(AppContext);
+
+const donorInfo = donors?.find(
+  (d) => d.userId?.toString() === user?._id?.toString()
+);
 
   if (!user) {
     return (
@@ -65,6 +69,65 @@ export default function MyProfile() {
           </div>
 
         </div>
+
+        {donorInfo && (
+  <div className="mt-10 border-t pt-6">
+    <h3 className="text-xl font-semibold text-red-500 mb-5">
+      Blood Donor Profile
+    </h3>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+      <div className="bg-red-50 p-4 rounded-xl">
+        <p className="text-sm text-gray-500">Blood Group</p>
+        <p className="text-red-600 font-medium">
+          {donorInfo.bloodGroup}
+        </p>
+      </div>
+
+      <div className="bg-red-50 p-4 rounded-xl">
+        <p className="text-sm text-gray-500">City</p>
+        <p className="text-red-600 font-medium">
+          {donorInfo.location}
+        </p>
+      </div>
+
+      <div className="bg-red-50 p-4 rounded-xl">
+        <p className="text-sm text-gray-500">Phone</p>
+        <p className="text-red-600 font-medium">
+          {donorInfo.phone}
+        </p>
+      </div>
+
+<div className="bg-red-50 p-4 rounded-xl flex items-center justify-between">
+
+  <div>
+    <p className="text-sm text-gray-500">Availability</p>
+    <p className="mt-1 font-medium">
+      {donorInfo.available ? "Available" : "Not Available"}
+    </p>
+  </div>
+
+  <button
+    onClick={() =>
+      updateAvailability(donorInfo._id, !donorInfo.available)
+    }
+    className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
+      donorInfo.available ? "bg-green-500" : "bg-red-500"
+    }`}
+  >
+    <div
+      className={`bg-white w-4 h-4 rounded-full shadow transform transition ${
+        donorInfo.available ? "translate-x-6" : ""
+      }`}
+    ></div>
+  </button>
+
+</div>
+
+    </div>
+  </div>
+)}
 
       </div>
     </div>

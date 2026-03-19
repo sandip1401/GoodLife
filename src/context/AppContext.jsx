@@ -9,6 +9,7 @@ const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [doctors, setDoctors] = useState([]);
   const [user, setUser] = useState(null);
+  const [donors, setDonors] = useState([]);
 
   const [token, setToken] = useState(
     localStorage.getItem("token") ? localStorage.getItem("token") : false
@@ -51,6 +52,129 @@ const AppContextProvider = (props) => {
   };
 
 
+  const updateAvailability = async (donorId, available) => {
+
+  try {
+
+    const { data } = await axios.put(
+      backendUrl + "/api/user/update-availability",
+      {
+        donorId,
+        available
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if (data.success) {
+      toast.success(data.message);
+
+      // refresh donor list
+      getDonors();
+
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+
+    console.log(error);
+    toast.error("Failed to update availability");
+
+  }
+
+};
+
+  const addDonor = async (donorData) => {
+
+  try {
+
+    const { data } = await axios.post(
+      backendUrl + "/api/user/add-donor",
+      donorData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    if (data.success) {
+      toast.success(data.message)
+      return true
+    } else {
+      toast.error(data.message)
+      return false
+    }
+
+  } catch (error) {
+    console.log(error)
+    toast.error("Failed to add donor")
+    return false
+  }
+
+}
+
+
+  const reportDonor = async (donorId, message) => {
+  try {
+
+    const { data } = await axios.post(
+      backendUrl + "/api/user/report",
+      {
+        donorId,
+        message
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    console.log(error);
+    toast.error("Report failed");
+  }
+};
+
+
+const getDonors = async () => {
+
+  try {
+
+    const { data } = await axios.get(
+      backendUrl + "/api/user/donor-list",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+
+    if (data.success) {
+      setDonors(data.donors);
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to load donors");
+  }
+
+};
+
    const getUserProfile = async () => {
     try {
       const { data } = await axios.get(
@@ -92,6 +216,12 @@ const AppContextProvider = (props) => {
 }, []);
 
 useEffect(() => {
+  if(token){
+    getDonors();
+  }
+}, [token]);
+
+useEffect(() => {
   if (!token) return;
 
   try {
@@ -125,12 +255,17 @@ useEffect(() => {
     currencySymbol,
     getDoctorsData,
     token,
+    donors,
     setToken,
     backendUrl,
     getUserAppointments,
     getUserProfile,
     user,
-    setUser
+    setUser,
+    reportDonor,
+    addDonor,
+    getDonors,
+    updateAvailability
   };
 
   return (

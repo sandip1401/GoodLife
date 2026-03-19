@@ -1,101 +1,198 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import emailjs from "@emailjs/browser";
+import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 export default function Blood() {
+  const navigate = useNavigate();
+  const { city: urlCity } = useParams();
+
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(urlCity || "");
   const [showForm, setShowForm] = useState(false);
   const [showOtpBox, setShowOtpBox] = useState(false);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-
-  // ✅ NEW STATE FOR CALL MODAL
+  const [selectedReportDonor, setSelectedReportDonor] = useState(null);
+  const [reportText, setReportText] = useState("");
+  const [name, setName] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
   const [selectedDonor, setSelectedDonor] = useState(null);
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [otpTime, setOtpTime] = useState(null);
 
-  const donors = [
-    {
-      id: 1,
-      name: "Rahul Sharma",
-      bloodGroup: "A+",
-      location: "Delhi",
-      phone: "9876543210",
-    },
-    {
-      id: 2,
-      name: "Priya Patel",
-      bloodGroup: "B+",
-      location: "Mumbai",
-      phone: "9123456780",
-    },
-    {
-      id: 3,
-      name: "Aman Verma",
-      bloodGroup: "O+",
-      location: "Delhi",
-      phone: "9988776655",
-    },
-    {
-      id: 4,
-      name: "Sneha Reddy",
-      bloodGroup: "AB+",
-      location: "Hyderabad",
-      phone: "9012345678",
-    },
-    {
-      id: 5,
-      name: "Aman Verma",
-      bloodGroup: "O+",
-      location: "Delhi",
-      phone: "9988776655",
-    },
-    {
-      id: 6,
-      name: "Rahul Sharma",
-      bloodGroup: "A+",
-      location: "Delhi",
-      phone: "9876543210",
-    },
-    {
-      id: 7,
-      name: "Priya Patel",
-      bloodGroup: "B+",
-      location: "Mumbai",
-      phone: "9123456780",
-    },
-    {
-      id: 8,
-      name: "Aman Verma",
-      bloodGroup: "O+",
-      location: "Delhi",
-      phone: "9988776655",
-    },
-    {
-      id: 9,
-      name: "Sneha Reddy",
-      bloodGroup: "AB+",
-      location: "Hyderabad",
-      phone: "9012345678",
-    },
-    {
-      id: 10,
-      name: "Aman Verma",
-      bloodGroup: "O+",
-      location: "Delhi",
-      phone: "9988776655",
-    },
-  ];
+  const { reportDonor, addDonor, getDonors, donors } = useContext(AppContext);
+  const locations = [...new Set(donors.map((d) => d.location.toLowerCase()))];
+  const SERVICE_ID = import.meta.env.VITE_EMAIL_SERVICE_ID;
+  const TEMPLATE_ID = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
+  const PUBLIC_KEY = import.meta.env.VITE_EMAIL_PUBLIC_KEY;
 
-  const filteredDonors = donors.filter(
-    (donor) =>
-      (selectedGroup === "" || donor.bloodGroup === selectedGroup) &&
-      (selectedLocation === "" || donor.location === selectedLocation),
-  );
+  const handleReportClick = (donor) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login to report");
+      navigate("/login");
+      return;
+    }
+
+    setSelectedReportDonor(donor);
+  };
+
+  const sendOtp = () => {
+    if (!email) {
+      toast.error("Enter email first");
+      return;
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000);
+
+    setGeneratedOtp(otpCode);
+    setOtpTime(Date.now());
+
+    const templateParams = {
+      email: email,
+      passcode: otpCode,
+      time: "15 minutes",
+    };
+
+    emailjs
+      .send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+      .then(() => {
+        toast.success("OTP sent to your email");
+        setShowOtpBox(true);
+      })
+      .catch(() => {
+        toast.error("Failed to send OTP");
+      });
+  };
+
+  const verifyOtp = () => {
+    if (Date.now() - otpTime > 5 * 60 * 1000) {
+      toast.error("OTP expired");
+      return;
+    }
+    if (otp === generatedOtp.toString()) {
+      toast.success("Email verified successfully");
+      setEmailVerified(true);
+    } else {
+      toast.error("Invalid OTP");
+    }
+  };
+
+  const capitalize = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const submitDonor = async () => {
+    if (!emailVerified) {
+      toast.error("Please verify OTP first");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login to report");
+      navigate("/login");
+      return;
+    }
+
+    if (!name || !bloodGroup || !city || !phone || !email) {
+      toast.error("Please fill all fields");
+      return;
+    }
+    const donorData = {
+      name,
+      bloodGroup,
+      location: city.toLowerCase(),
+      phone,
+      email,
+    };
+
+    const success = await addDonor(donorData);
+
+    if (success) {
+      await getDonors();
+      setShowForm(false);
+
+      setName("");
+      setBloodGroup("");
+      setCity("");
+      setPhone("");
+      setEmail("");
+      setOtp("");
+      setShowOtpBox(false);
+      setEmailVerified(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!urlCity) {
+      navigate("/blood-donor/rampurhat", { replace: true });
+    } else {
+      setSelectedLocation(urlCity.toLowerCase());
+    }
+  }, [urlCity, navigate]);
+
+  const filteredDonors = donors.filter((donor) => {
+    const groupMatch =
+      selectedGroup === "" || donor.bloodGroup === selectedGroup;
+
+    const locationMatch =
+      selectedLocation === "" ||
+      donor.location.toLowerCase() === selectedLocation.toLowerCase();
+
+    return donor.available === true && groupMatch && locationMatch;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8 relative">
+      <Helmet>
+        <title>
+          Blood Donors in {selectedLocation || urlCity || "Rampurhat"} |
+          DoctorInCity
+        </title>
+
+        <meta
+          name="description"
+          content={`Find blood donors in ${
+            selectedLocation || "Rampurhat"
+          }. Search by blood group and contact instantly in emergency.`}
+        />
+
+        {/* ✅ CANONICAL URL */}
+        <link
+          rel="canonical"
+          href={`https://doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`}
+        />
+
+        {/* ✅ STRUCTURED DATA */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "MedicalBusiness",
+            name: "DoctorInCity",
+            areaServed: selectedLocation || urlCity || "Rampurhat",
+            serviceType: "Blood Donor Finder",
+            url: `https://doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`,
+          })}
+        </script>
+      </Helmet>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Blood Donors</h1>
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="lg:text-3xl text-xl font-bold text-gray-800 mr-2">
+            Blood Donors in{" "}
+            <span className="">
+              {capitalize(selectedLocation || "Your City")}
+            </span>
+          </h1>
 
           <button
             onClick={() => setShowForm(true)}
@@ -105,6 +202,11 @@ export default function Blood() {
           </button>
         </div>
 
+        <p className="text-sm text-gray-500 mb-10 hidden sm:block">
+          Find blood donors by group and city. Contact instantly during
+          emergency.
+        </p>
+
         {/* Filter Section */}
         <div className="bg-white p-4 rounded-xl shadow mb-6 flex flex-col md:flex-row gap-4">
           <select
@@ -112,20 +214,34 @@ export default function Blood() {
             className="border rounded p-2 w-full md:w-1/2"
           >
             <option value="">Filter by Blood Group</option>
-            <option>A+</option>
-            <option>B+</option>
-            <option>O+</option>
-            <option>AB+</option>
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="O+">O+</option>
+            <option value="AB+">AB+</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="O-">O-</option>
+            <option value="AB-">AB-</option>
           </select>
 
           <select
-            onChange={(e) => setSelectedLocation(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value.toLowerCase();
+              setSelectedLocation(value);
+
+              if (value) {
+                navigate(`/blood-donor/${value}`);
+              }
+            }}
             className="border rounded p-2 w-full md:w-1/2"
           >
-            <option value="">Filter by Location</option>
-            <option>Delhi</option>
-            <option>Mumbai</option>
-            <option>Hyderabad</option>
+            <option value="">Filter by City</option>
+
+            {locations.map((loc, index) => (
+              <option key={index} value={loc}>
+                {loc}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -145,17 +261,18 @@ export default function Blood() {
               {filteredDonors.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="p-6 text-center text-gray-500">
-                    No donors found.
+                    No blood donors found in this city. Try another blood group
+                    or nearby location.
                   </td>
                 </tr>
               ) : (
                 filteredDonors.map((donor) => (
-                  <tr key={donor.id} className="border-b hover:bg-gray-50">
+                  <tr key={donor._id} className="border-b hover:bg-gray-50">
                     <td className="p-4">{donor.name}</td>
                     <td className="p-4 text-center font-medium text-blue-500">
                       {donor.bloodGroup}
                     </td>
-                    <td className="p-4">{donor.location}</td>
+                    <td className="p-4 capitalize">{donor.location}</td>
 
                     {/* ✅ UPDATED PHONE SECTION */}
                     <td className="p-4">
@@ -168,7 +285,10 @@ export default function Blood() {
                     </td>
 
                     <td className="p-4">
-                      <button className="bg-red-500 text-white px-3 py-1 rounded">
+                      <button
+                        onClick={() => handleReportClick(donor)}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
                         Report
                       </button>
                     </td>
@@ -182,10 +302,12 @@ export default function Blood() {
         {/* ===== MOBILE VIEW ===== */}
         <div className="md:hidden space-y-4">
           {filteredDonors.length === 0 ? (
-            <p className="text-center text-gray-500">No donors found.</p>
+            <p className="text-center text-gray-500">
+              No blood donors found in this city.
+            </p>
           ) : (
             filteredDonors.map((donor) => (
-              <div key={donor.id} className="bg-white p-4 rounded-xl shadow">
+              <div key={donor._id} className="bg-white p-4 rounded-xl shadow">
                 <p className="text-lg font-semibold text-gray-800">
                   {donor.name}
                 </p>
@@ -202,7 +324,10 @@ export default function Blood() {
                   📞 {donor.phone}
                 </button>
 
-                <button className="w-full bg-red-500 text-white py-2 rounded-lg">
+                <button
+                  onClick={() => handleReportClick(donor)}
+                  className="w-full bg-red-500 text-white py-2 rounded-lg"
+                >
                   Report
                 </button>
               </div>
@@ -210,6 +335,50 @@ export default function Blood() {
           )}
         </div>
       </div>
+
+      <div className="hidden">
+        Blood donors in rampurhat, bolpur, suri, sainthia. Find A+, B+, O+, AB
+        blood donors easily.
+      </div>
+
+      {selectedReportDonor && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
+            <h2 className="text-lg font-semibold mb-3">
+              Report {selectedReportDonor.name}
+            </h2>
+
+            <textarea
+              value={reportText}
+              onChange={(e) => setReportText(e.target.value)}
+              placeholder="Write your report..."
+              className="w-full border p-2 rounded mb-4"
+              rows="4"
+            />
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setSelectedReportDonor(null)}
+                className="px-4 py-1 bg-gray-300 rounded"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => {
+                  reportDonor(selectedReportDonor._id, reportText);
+
+                  setReportText("");
+                  setSelectedReportDonor(null);
+                }}
+                className="px-4 py-1 bg-red-500 text-white rounded"
+              >
+                Report
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ===== CALL CONFIRMATION MODAL ===== */}
       {selectedDonor && (
@@ -256,29 +425,43 @@ export default function Blood() {
             <input
               type="text"
               placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="border rounded w-full p-2 mb-3"
             />
 
-            <select className="border rounded w-full p-2 mb-3">
-              <option>Blood Group</option>
-              <option>A+</option>
-              <option>B+</option>
-              <option>AB+</option>
-              <option>O+</option>
-              <option>A-</option>
-              <option>B-</option>
-              <option>AB-</option>
-              <option>O-</option>
+            <select
+              value={bloodGroup}
+              onChange={(e) => setBloodGroup(e.target.value)}
+              className="border rounded w-full p-2 mb-3"
+            >
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+
+            <select
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="border rounded w-full p-2 mb-3"
+            >
+              <option value="">Select City</option>
+              <option value="bolpur">BOLPUR</option>
+              <option value="rampurhat">RAMPURHAT</option>
+              <option value="sainthia">SAINTHIA</option>
+              <option value="suri">SURI</option>
             </select>
 
             <input
               type="text"
-              placeholder="City"
-              className="border rounded w-full p-2 mb-3"
-            />
-
-            <input
-              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               placeholder="Phone Number"
               className="border rounded w-full p-2 mb-3"
             />
@@ -294,11 +477,7 @@ export default function Blood() {
 
               <button
                 type="button"
-                onClick={() => {
-                  if (email.trim() !== "") {
-                    setShowOtpBox(true);
-                  }
-                }}
+                onClick={sendOtp}
                 className="shrink-0 px-3 sm:px-4 py-2 bg-green-500 text-white border border-green-500 rounded-r transition-all duration-200"
               >
                 Validate
@@ -317,9 +496,7 @@ export default function Blood() {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    console.log("OTP Verified:", otp);
-                  }}
+                  onClick={verifyOtp}
                   className="shrink-0 px-3 sm:px-4 py-2 bg-green-500 text-white border border-green-500 rounded-r hover:bg-green-600 transition-all duration-200"
                 >
                   Verify OTP
@@ -340,7 +517,14 @@ export default function Blood() {
                 Cancel
               </button>
 
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+              <button
+                onClick={submitDonor}
+                className={`px-4 py-2 text-white rounded-lg ${
+                  emailVerified
+                    ? "bg-blue-500"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+              >
                 Submit
               </button>
             </div>

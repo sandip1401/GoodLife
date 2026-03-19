@@ -325,28 +325,28 @@ export const Appoinment = () => {
               {docInfo.speciality}
             </p>
 
-<button className="hidden sm:inline-block border border-gray-200 rounded-full text-xs px-2 py-0.5">              {docInfo.experience}
+            <button className="hidden sm:inline-block border border-gray-200 rounded-full text-xs px-2 py-0.5">
+              {" "}
+              {docInfo.experience}
             </button>
           </div>
 
-{/* Mobile */}
-<div className="sm:hidden mt-1 text-gray-600">
-  
-  {/* English + Button */}
-  <div className="flex items-center gap-2">
-    <p>{docInfo.speciality}</p>
+          {/* Mobile */}
+          <div className="sm:hidden mt-1 text-gray-600">
+            {/* English + Button */}
+            <div className="flex items-center gap-2">
+              <p>{docInfo.speciality}</p>
 
-    <button className="border border-gray-200 rounded-full text-xs px-2 py-0.5">
-      {docInfo.experience}
-    </button>
-  </div>
+              <button className="border border-gray-200 rounded-full text-xs px-2 py-0.5">
+                {docInfo.experience}
+              </button>
+            </div>
 
-  {/* Bengali below */}
-  <p className="text-xs text-gray-500 mt-0.5">
-    {specialityInBengali[docInfo.speciality] || ""}
-  </p>
-
-</div>
+            {/* Bengali below */}
+            <p className="text-xs text-gray-500 mt-0.5">
+              {specialityInBengali[docInfo.speciality] || ""}
+            </p>
+          </div>
 
           <div className="text-gray-800 text-sm mt-3">
             <p className="flex items-center gap-1 font-semibold">
@@ -365,7 +365,7 @@ export const Appoinment = () => {
           </div>
 
           <div className="flex items-center gap-1.5 mt-1">
-            <p className="text-gray-600 text-base">City & Pincode:</p>
+            <p className="text-gray-600 font-medium">City & Pincode:</p>
             <span className="text-gray-600">{docInfo.city}</span>
           </div>
 
@@ -521,73 +521,73 @@ export const Appoinment = () => {
         <p className="text-center text-gray-800 mt-3 text-sm">
           Simply browse through our extensive list of trusted doctors.
         </p>
-        <div className="w-full grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-4 gap-y-7 mt-10">
+        <div className="w-full grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-4 gap-y-7 mt-10">
           {filterDoc.map((item, index) => (
             <div
-                          key={item._id}
-                          onClick={() => navigate(`/appoinment/${item._id}`)}
-                          className="border border-blue-200 rounded-lg cursor-pointer 
+              key={item._id}
+              onClick={() => navigate(`/appoinment/${item._id}`)}
+              className="border border-blue-200 rounded-lg cursor-pointer 
                                      hover:translate-y-[-5px] transition-all duration-500 
                                      flex flex-col h-32 overflow-hidden"
-                        >
-                          {/* TOP SECTION (Image + Data) */}
-                          <div className="flex items-center flex-1 overflow-hidden">
-                            {/* LEFT IMAGE */}
-                            <div className="w-1/4 h-full">
-                              <img
-                                className="w-full h-full object-cover bg-blue-50"
-                                src={item.image}
-                                alt=""
-                              />
-                            </div>
-            
-                            {/* RIGHT DATA */}
-                            <div className="w-3/4 p-3 flex flex-col justify-center">
-                              <p className="flex items-center gap-1 text-lg font-medium text-gray-900 truncate">
-                                <span className="truncate">{item.name}</span>
-                                <img
-                                  className="w-3 h-3"
-                                  src={assets.verified_icon}
-                                  alt="verified"
-                                />
-                              </p>
-            
-                              <div className="flex items-center gap-1 text-sm text-green-500 leading-none my-0.5">
-                                {" "}
-                                <p className="w-2 h-2 bg-green-500 rounded-full"></p>
-                                <p>
-                                  Available on{" "}
-                                  {item.weeklyAvailability &&
-                                  item.weeklyAvailability.length > 0
-                                    ? item.weeklyAvailability
-                                        .slice(0, 3) // take maximum 3 days
-                                        .map((av) => av.day.slice(0, 3)) // take first 3 letters
-                                        .join(", ")
-                                    : "N/A"}
-                                </p>
-                              </div>
-            
-                              <p className="text-sm text-gray-600 font-medium">
-                                {item.speciality}
-                              </p>
-            
-                              <p className="text-xs text-gray-500">
-                                {specialityInBengali[item.speciality] || ""}
-                              </p>
-            
-                              <p className="text-sm text-gray-600 mb-1">
-                                Fee:<span className="text-black"> ₹ {item.fees}</span>
-                              </p>
-                            </div>
-                          </div>
-            
-                          {/* BOTTOM FULL WIDTH SECTION */}
-                          <div className="border-t border-blue-200 text-center text-[11.5px] text-gray-600 py-0.5 bg-blue-50 truncate px-2">
-                            <span className="truncate block">
-                              Gold Medalist in Cardiology and Research Excellence
-                            </span>
-                          </div>
-                        </div>
+            >
+              {/* TOP SECTION (Image + Data) */}
+              <div className="flex items-center flex-1 overflow-hidden">
+                {/* LEFT IMAGE */}
+                <div className="w-1/4 h-full">
+                  <img
+                    className="w-full h-full object-cover bg-blue-50"
+                    src={item.image}
+                    alt=""
+                  />
+                </div>
+
+                {/* RIGHT DATA */}
+                <div className="w-3/4 p-3 flex flex-col justify-center">
+                  <p className="flex items-center gap-1 text-lg font-medium text-gray-900 truncate">
+                    <span className="truncate">{item.name}</span>
+                    <img
+                      className="w-3 h-3"
+                      src={assets.verified_icon}
+                      alt="verified"
+                    />
+                  </p>
+
+                  <div className="flex items-center gap-1 text-sm text-green-500 leading-none my-0.5">
+                    {" "}
+                    <p className="w-2 h-2 bg-green-500 rounded-full"></p>
+                    <p>
+                      Available on{" "}
+                      {item.weeklyAvailability &&
+                      item.weeklyAvailability.length > 0
+                        ? item.weeklyAvailability
+                            .slice(0, 3) // take maximum 3 days
+                            .map((av) => av.day.slice(0, 3)) // take first 3 letters
+                            .join(", ")
+                        : "N/A"}
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-gray-600 font-medium">
+                    {item.speciality}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    {specialityInBengali[item.speciality] || ""}
+                  </p>
+
+                  <p className="text-sm text-gray-600 mb-1">
+                    Fee:<span className="text-black"> ₹ {item.fees}</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* BOTTOM FULL WIDTH SECTION */}
+              <div className="border-t border-blue-200 text-center text-[11.5px] text-gray-600 py-0.5 bg-blue-50 truncate px-2">
+                <span className="truncate block">
+                  {item.achievement}
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </div>
