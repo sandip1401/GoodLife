@@ -29,6 +29,7 @@ export default function Blood() {
 
   const { reportDonor, addDonor, getDonors, donors } = useContext(AppContext);
   const locations = [...new Set(donors.map((d) => d.location.toLowerCase()))];
+
   const SERVICE_ID = import.meta.env.VITE_EMAIL_SERVICE_ID;
   const TEMPLATE_ID = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
   const PUBLIC_KEY = import.meta.env.VITE_EMAIL_PUBLIC_KEY;
@@ -189,7 +190,7 @@ export default function Blood() {
         <div className="flex justify-between items-center mb-2">
           <h1 className="lg:text-3xl text-xl font-bold text-gray-800 mr-2">
             Blood Donors in{" "}
-            <span className="">
+            <span className="text-green-500">
               {capitalize(selectedLocation || "Your City")}
             </span>
           </h1>
@@ -239,7 +240,7 @@ export default function Blood() {
 
             {locations.map((loc, index) => (
               <option key={index} value={loc}>
-                {loc}
+                {loc.toUpperCase()}
               </option>
             ))}
           </select>
@@ -314,7 +315,7 @@ export default function Blood() {
 
                 <p className="text-blue-500 font-medium">{donor.bloodGroup}</p>
 
-                <p className="text-gray-600 text-sm">{donor.location}</p>
+                <p className="text-gray-600 text-sm">{donor.location.toUpperCase()}</p>
 
                 {/* ✅ UPDATED PHONE FOR MOBILE */}
                 <button

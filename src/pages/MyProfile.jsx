@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
 export default function MyProfile() {
-const { user, donors,updateAvailability } = useContext(AppContext);
+const { user, donors,setDonors,updateAvailability } = useContext(AppContext);
 
 const donorInfo = donors?.find(
   (d) => d.userId?.toString() === user?._id?.toString()
@@ -108,20 +108,30 @@ const donorInfo = donors?.find(
     </p>
   </div>
 
-  <button
-    onClick={() =>
-      updateAvailability(donorInfo._id, !donorInfo.available)
-    }
-    className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
-      donorInfo.available ? "bg-green-500" : "bg-red-500"
+<button
+  onClick={() => {
+  // Step A: Update UI instantly
+  const updatedDonors = donors.map((d) =>
+    d._id === donorInfo._id
+      ? { ...d, available: !donorInfo.available }
+      : d
+  );
+
+  setDonors(updatedDonors);
+
+  // Step B: Update database
+  updateAvailability(donorInfo._id, !donorInfo.available);
+}}
+  className={`w-12 h-6 flex items-center rounded-full p-1 transition ${
+    donorInfo.available ? "bg-green-500" : "bg-red-500"
+  }`}
+>
+  <div
+    className={`bg-white w-4 h-4 rounded-full shadow transform transition-all duration-200 ${
+      donorInfo.available ? "translate-x-6" : ""
     }`}
-  >
-    <div
-      className={`bg-white w-4 h-4 rounded-full shadow transform transition ${
-        donorInfo.available ? "translate-x-6" : ""
-      }`}
-    ></div>
-  </button>
+  ></div>
+</button>
 
 </div>
 

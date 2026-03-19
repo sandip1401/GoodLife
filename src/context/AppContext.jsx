@@ -256,6 +256,7 @@ useEffect(() => {
     getDoctorsData,
     token,
     donors,
+    setDonors,
     setToken,
     backendUrl,
     getUserAppointments,
