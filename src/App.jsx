@@ -13,6 +13,9 @@ import { Appoinment } from "./pages/Appoinment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Blood from "./pages/Blood";
+import AllClinics from "./pages/AllClinics";
+import ClinicDoctors from "./pages/ClinicDoctors";
+
 
 export default function App() {
   return (
@@ -24,6 +27,8 @@ export default function App() {
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/doctors/:speciality" element={<Doctors />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/clinics" element={<AllClinics/>}/>
+        <Route path="/clinic/:clinicId" element={<ClinicDoctors />} />
         <Route path="/blood-donor/:city?" element={<Blood />} />{" "}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

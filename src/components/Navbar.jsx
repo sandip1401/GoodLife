@@ -116,7 +116,6 @@ import { IoIosSearch } from "react-icons/io";
 import { assets } from "../assets/assets_frontend/assets";
 import { AppContext } from "../context/AppContext";
 
-
 /* ---------- FUZZY SEARCH (SAME AS BEFORE) ---------- */
 const normalize = (text = "") => text.toLowerCase().replace(/[^a-z]/g, "");
 
@@ -170,55 +169,59 @@ const Navbar = () => {
   );
 
   const specialityInBengali = {
-  "General physician": " ( সাধারণ চিকিৎসক )",
-  Gynecologist: "( স্ত্রীরোগ বিশেষজ্ঞ )",
-  Dermatologist: "( ত্বক বিশেষজ্ঞ )",
-  Pediatricians: "( শিশু বিশেষজ্ঞ )",
-  Neurologist: "( স্নায়ু বিশেষজ্ঞ )",
-  Neuropsychiatrist: "( স্নায়ু ও মনোরোগ বিশেষজ্ঞ )",
-  Dentist: "( দন্ত বিশেষজ্ঞ )",
-  Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
-  Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
-};
+    "General physician": " ( সাধারণ চিকিৎসক )",
+    Gynecologist: "( স্ত্রীরোগ বিশেষজ্ঞ )",
+    Dermatologist: "( ত্বক বিশেষজ্ঞ )",
+    Pediatricians: "( শিশু বিশেষজ্ঞ )",
+    Neurologist: "( স্নায়ু বিশেষজ্ঞ )",
+    Neuropsychiatrist: "( স্নায়ু ও মনোরোগ বিশেষজ্ঞ )",
+    Dentist: "( দন্ত বিশেষজ্ঞ )",
+    Gastroenterologist: "(পাকস্থলী ও হজম বিশেষজ্ঞ)",
+    Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
+    Nephrologist: "( কিডনি রোগ বিশেষজ্ঞ )",
+    "ENT Specialist": "( নাক, কান, গলা বিশেষজ্ঞ )",
+    Homoeopath: "( হোমিওপ্যাথি বিশেষজ্ঞ )",
+    Physiotherapist: "( ফিজিওথেরাপিস্ট )",
+    "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
+    Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
+    Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
-  <div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] py-3 border-b border-gray-300">
+      <div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] py-3 border-b border-gray-300">
+        <ul className="flex items-center justify-between font-medium">
+          {/* LOGO */}
+          <li
+            onClick={() => {
+              navigate("/");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="cursor-pointer flex items-center gap-0 -ml-2"
+          >
+            <img
+              src="/logo.png"
+              alt="Doctor InCity"
+              className="w-14 -my-2 object-contain"
+            />
 
-    <ul className="flex items-center justify-between font-medium">
+            <div className="flex flex-col leading-none -ml-2">
+              <span className="text-4xl font-semibold bg-gradient-to-r from-[#0284c7] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
+                doctor
+              </span>
 
-      {/* LOGO */}
-      <li
-        onClick={() => {
-          navigate("/");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        className="cursor-pointer flex items-center gap-0"
-      >
-        <img
-          src="/logo.png"
-          alt="Doctor InCity"
-          className="w-14 -my-2 object-contain"
-        />
-
-        <div className="flex flex-col leading-none -ml-2">
-          <span className="text-4xl font-semibold bg-gradient-to-r from-[#0284c7] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
-  doctor
-</span>
-
-          <span className="text-[11px] tracking-[5px] text-gray-500 -mt-1">
-            — INCITY —
-          </span>
-        </div>
-      </li>
-
-
+              <span className="text-[11px] tracking-[5px] text-gray-500 -mt-1">
+                — INCITY —
+              </span>
+            </div>
+          </li>
 
           {/* DESKTOP NAV WITH BLUE UNDERLINE */}
           <div className="hidden md:flex items-center gap-5">
             {[
               { path: "/", label: "HOME" },
               { path: "/doctors", label: "ALL DOCTORS" },
+              { path: "/clinics", label: "ALL CLINICS" },
               { path: "/about", label: "ABOUT" },
               { path: "/contact", label: "CONTACT" },
             ].map((item) => (
@@ -279,8 +282,8 @@ const Navbar = () => {
                           <p className="text-xs text-gray-500">
                             {doc.speciality}
                             <span className="ml-1 text-xs text-gray-500 md:hidden">
-                    {specialityInBengali[doc.speciality] || ""}
-                  </span>
+                              {specialityInBengali[doc.speciality] || ""}
+                            </span>
                           </p>
                         </div>
                       ))
@@ -382,7 +385,13 @@ const Navbar = () => {
           <NavLink onClick={() => setShowMenu(false)} to="/doctors">
             <p className="px-4 py-2 rounded inline-block">ALL DOCTORS</p>
           </NavLink>
-          <NavLink onClick={() => setShowMenu(false)} to="/blood-donor/rampurhat">
+          <NavLink onClick={() => setShowMenu(false)} to="/clinics">
+            <p className="px-4 py-2 rounded inline-block">ALL CLINICS</p>
+          </NavLink>
+          <NavLink
+            onClick={() => setShowMenu(false)}
+            to="/blood-donor/rampurhat"
+          >
             <p className="px-4 py-2 rounded inline-block">NEED BLOOD</p>
           </NavLink>
           <NavLink onClick={() => setShowMenu(false)} to="/about">

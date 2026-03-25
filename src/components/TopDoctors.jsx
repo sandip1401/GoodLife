@@ -17,6 +17,13 @@ const TopDoctors = () => {
     Dentist: "( দন্ত বিশেষজ্ঞ )",
     Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
     Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
+    Nephrologist: "( কিডনি রোগ বিশেষজ্ঞ )",
+    "ENT Specialist": "( নাক, কান, গলা বিশেষজ্ঞ )",
+    Homoeopath: "( হোমিওপ্যাথি বিশেষজ্ঞ )",
+    Physiotherapist: "( ফিজিওথেরাপিস্ট )",
+    "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
+    Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
+    Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
   };
 
   return (

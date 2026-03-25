@@ -20,3 +20,13 @@
         @apply text-white bg-blue-500
     }
 }
+
+@keyframes smoothBlink {
+  0% { opacity: 1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+.animate-smoothBlink {
+  animation: smoothBlink 1.5s infinite;
+}

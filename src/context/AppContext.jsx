@@ -10,10 +10,10 @@ const AppContextProvider = (props) => {
   const [doctors, setDoctors] = useState([]);
   const [user, setUser] = useState(null);
   const [donors, setDonors] = useState([]);
+  const [clinics, setClinics] = useState([]);
+  const [clinicDoctors, setClinicDoctors] = useState([]);
 
-  const [token, setToken] = useState(
-    localStorage.getItem("token") ? localStorage.getItem("token") : false
-  );
+const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [appointments, setAppointments] = useState([]);
 
   const getDoctorsData = async () => {
@@ -30,7 +30,35 @@ const AppContextProvider = (props) => {
     }
   };
 
-  
+const getDoctorsByClinic = async (clinicId) => {
+  try {
+    const { data } = await axios.get(
+backendUrl + "/api/clinic/doctors-by-clinic/" + clinicId    );
+
+    if (data.success) {
+      setClinicDoctors(data.doctors);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  const getAllClinics = async () => {
+  try {
+    const { data } = await axios.get(
+      backendUrl + "/api/clinic/list"
+    );
+
+    if (data.success) {
+      setClinics(data.clinics);
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to load clinics");
+  }
+};
 
   const getUserAppointments = async () => {
     try {
@@ -149,18 +177,20 @@ const AppContextProvider = (props) => {
 
 
 const getDonors = async () => {
-
   try {
+
+    const config = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {}; // no token if user not logged in
 
     const { data } = await axios.get(
       backendUrl + "/api/user/donor-list",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
+      config
     );
-
 
     if (data.success) {
       setDonors(data.donors);
@@ -172,7 +202,6 @@ const getDonors = async () => {
     console.log(error);
     toast.error("Failed to load donors");
   }
-
 };
 
    const getUserProfile = async () => {
@@ -216,10 +245,8 @@ const getDonors = async () => {
 }, []);
 
 useEffect(() => {
-  if(token){
-    getDonors();
-  }
-}, [token]);
+  getDonors();
+}, []);
 
 useEffect(() => {
   if (!token) return;
@@ -227,22 +254,16 @@ useEffect(() => {
   try {
     const decoded = jwtDecode(token);
 
-    const expiryTime = decoded.exp * 1000; // convert to ms
-    const currentTime = Date.now();
+    if (decoded.exp) {
+      const expiryTime = decoded.exp * 1000;
+      const currentTime = Date.now();
 
-    const timeout = expiryTime - currentTime;
-
-    if (timeout <= 0) {
-      logoutUser();
-    } else {
-      const timer = setTimeout(() => {
+      if (currentTime > expiryTime) {
         logoutUser();
-      }, timeout);
-
-      return () => clearTimeout(timer);
+      }
     }
   } catch (error) {
-    logoutUser();
+    console.log("Token decode error");
   }
 }, [token]);
 
@@ -266,7 +287,11 @@ useEffect(() => {
     reportDonor,
     addDonor,
     getDonors,
-    updateAvailability
+    updateAvailability,
+    clinics,
+    clinicDoctors,
+getAllClinics,
+getDoctorsByClinic,
   };
 
   return (
