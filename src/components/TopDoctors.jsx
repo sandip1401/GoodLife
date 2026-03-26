@@ -35,7 +35,7 @@ const TopDoctors = () => {
         Simply browse through our extensive list of trusted doctors.
       </p>
 
-      <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-8 gap-y-6">
+      <div className="w-full grid xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-8 gap-y-6">
         {doctors.slice(0, 10).map((item) => (
           <div
             key={item._id}

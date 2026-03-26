@@ -157,7 +157,7 @@ export default function Blood() {
       <Helmet>
         <title>
           Blood Donors in {selectedLocation || urlCity || "Rampurhat"} |
-          DoctorInCity
+          Doctor In City
         </title>
 
         <meta

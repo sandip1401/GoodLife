@@ -1,5 +1,6 @@
 import React from 'react'
 import { assets } from '../assets/assets_frontend/assets'
+import { Helmet } from "react-helmet-async";
 
 export default function Contact() {
   return (
@@ -19,8 +20,8 @@ export default function Contact() {
           <p className='mb-6'>DD 252, NEWTOWN, KOLKATA</p>
           <p>Tel: +91 6296469437</p>
           <p>Tel: +91 9832292610</p>
-          <p>Email: sahasandip763@gmail.com</p>
-          <p className='mt-6 mb-6 text-gray-800 font-semibold'>CAREERS AT GOODLIFE</p>
+          <p>Email: doctorinmycity@gmail.com</p>
+          <p className='mt-6 mb-6 text-gray-800 font-semibold'>CAREERS AT DOCTOR IN CITY</p>
           <p>Learn more about our teams and job openings.</p>
           <button className='border mt-5 px-8 text-sm text-black py-3.5 w-fit hover:bg-black hover:text-white transition-all duration-200 cursor-pointer'>Explore Jobs</button>
         </div>

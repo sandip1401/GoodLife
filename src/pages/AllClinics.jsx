@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets_frontend/assets";
+import { Helmet } from "react-helmet-async";
 
 
 const AllClinics = () => {
@@ -14,6 +15,17 @@ const AllClinics = () => {
 
   return (
     <div className="px-1 sm:px-5 mt-5">
+        <Helmet>
+  <title>Clinics in Rampurhat | Doctor In City</title>
+
+  <meta
+    name="description"
+    content="Doctor In City helps you find clinics in Rampurhat with available doctors and appointment booking."
+  />
+
+  <link rel="canonical" href="https://www.doctorincity.com/clinics" />
+</Helmet>
+
       <p className="text-xl font-semibold mb-3">All Clinics</p>
 
       <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-6">

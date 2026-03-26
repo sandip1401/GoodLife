@@ -15,14 +15,14 @@ export default function About() {
         </div>
 
         <div className='w-full md:max-w-[90%] mx-auto lg:w-2/3 lg:mx-8 flex flex-col justify-center text-gray-600'>
-            <div className='lg:w-4/5'><p>Welcome to GoodLife, your trusted partner in simplifying healthcare appointments and improving patient experiences. At GoodLife, we understand the challenges people face when booking doctor visits and managing consultation schedules.</p>
+            <div className='lg:w-4/5'><p>Welcome to Doctor In City, your trusted partner in simplifying healthcare appointments and improving patient experiences. At Doctor In City, we understand the challenges people face when booking doctor visits and managing consultation schedules.</p>
 
 
-        <p className='mt-3'>GoodLife is committed to building smart and reliable healthcare solutions. We continuously improve our platform to make appointment booking, queue management, and clinic coordination seamless for patients and doctors. Whether you're scheduling your first visit or managing care, GoodLife supports you at every step.</p>
+        <p className='mt-3'>Doctor In City is committed to building smart and reliable healthcare solutions. We continuously improve our platform to make appointment booking, queue management, and clinic coordination seamless for patients and doctors. Whether you're scheduling your first visit or managing care, Doctor In City supports you at every step.</p>
 
             <p className='mt-3 text-black font-semibold'>Our Vison</p>
 
-        <p className='mt-0.5'>Our vision at GoodLife is to create an organized healthcare system where patients and doctors connect easily. We aim to reduce waiting time, remove confusion, and make quality healthcare accessible when needed.</p>
+        <p className='mt-0.5'>Our vision at Doctor In City is to create an organized healthcare system where patients and doctors connect easily. We aim to reduce waiting time, remove confusion, and make quality healthcare accessible when needed.</p>
             </div>
         </div>
         

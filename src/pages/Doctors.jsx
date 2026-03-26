@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets_frontend/assets";
+import { Helmet } from "react-helmet-async";
 
 export default function Doctors() {
   const { speciality } = useParams();
@@ -59,6 +60,28 @@ export default function Doctors() {
 
   return (
     <div className="relative">
+      <Helmet>
+  <title>
+    {speciality
+      ? `${speciality} Doctors in ${city || "Rampurhat"} | Doctor In City`
+      : `Best Doctors in ${city || "Rampurhat"} | Doctor In City`}
+  </title>
+
+  <meta
+    name="description"
+    content={`Find verified ${
+      speciality ? speciality : ""
+    } doctors in ${city || "Rampurhat"} with Doctor In City. Book appointments online easily.`}
+  />
+
+  <link
+    rel="canonical"
+    href={`https://www.doctorincity.com/doctors/${city || ""}${
+      speciality ? "/" + speciality : ""
+    }`}
+  />
+</Helmet>
+
       {/* ===== Mobile Fixed Header Only ===== */}
       <div className="sm:hidden fixed top-16 left-0 w-full bg-white z-40">
         <div className="mx-6 py-3">

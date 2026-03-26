@@ -204,9 +204,10 @@ const Navbar = () => {
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
+              {/* <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent"> */}
 
             <div className="flex flex-col leading-none -ml-2">
-              <span className="text-4xl font-semibold bg-gradient-to-r from-[#0284c7] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
+              <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
                 doctor
               </span>
 
@@ -217,7 +218,7 @@ const Navbar = () => {
           </li>
 
           {/* DESKTOP NAV WITH BLUE UNDERLINE */}
-          <div className="hidden md:flex items-center gap-5">
+          <div className="hidden xl:flex items-center gap-5">
             {[
               { path: "/", label: "HOME" },
               { path: "/doctors", label: "ALL DOCTORS" },
@@ -353,7 +354,7 @@ const Navbar = () => {
             {/* MOBILE 3-DOT / MENU (RESTORED) */}
             <img
               onClick={() => setShowMenu(true)}
-              className="w-6 md:hidden"
+              className="w-6 xl:hidden"
               src={assets.menu_icon}
               alt=""
             />
@@ -365,12 +366,34 @@ const Navbar = () => {
       <div
         className={`${
           showMenu ? "fixed w-full" : "h-0 w-0"
-        } md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}
+        } xl:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}
       >
         <div className="flex items-center justify-between px-5 py-6">
-          <div className="font-bold text-3xl text-blue-700">
-            Good<span className="text-green-500">Life</span>
-          </div>
+                    {/* LOGO */}
+          <li
+            onClick={() => {
+              navigate("/");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="cursor-pointer flex items-center gap-0 -ml-2"
+          >
+            <img
+              src="/logo.png"
+              alt="Doctor InCity"
+              className="w-14 -my-2 object-contain"
+            />
+              {/* <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent"> */}
+
+            <div className="flex flex-col leading-none -ml-2">
+              <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
+                doctor
+              </span>
+
+              <span className="text-[11px] tracking-[5px] text-gray-500 -mt-1">
+                — INCITY —
+              </span>
+            </div>
+          </li>
           <img
             className="w-7"
             onClick={() => setShowMenu(false)}
