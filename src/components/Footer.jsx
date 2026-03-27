@@ -80,7 +80,7 @@ export default function Footer() {
       {/*footer*/}
       <div className="text-gray-600">
         <hr />
-        <p className="text-center p-4 text-[12px]">
+        <p className="text-center p-4 text-[12px] truncate">
           Copyright 2026 @ Doctor In City - All Right Reserved.{" "}
         </p>
       </div>
