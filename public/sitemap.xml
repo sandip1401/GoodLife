@@ -10,6 +10,12 @@
 
   <url>
     <loc>https://www.doctorincity.com/doctors/rampurhat</loc>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.doctorincity.com/doctors/rampurhat</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
