@@ -5,7 +5,7 @@ import { assets } from "../assets/assets_frontend/assets";
 import { Helmet } from "react-helmet-async";
 
 export default function Doctors() {
-  const { speciality } = useParams();
+  const { city, speciality } = useParams();
   const navigate = useNavigate();
 
   const [filterDoc, setFilterDoc] = useState([]);
