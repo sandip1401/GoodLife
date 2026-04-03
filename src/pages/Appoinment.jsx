@@ -76,19 +76,13 @@ export const Appoinment = () => {
   const [filterDoc, setFilterDoc] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState("");
-  const fetchDocInfo = async () => {
-    try {
-      const { data } = await axios.get(`${backendUrl}/api/doctor/${docId}`);
-      if (data.success) {
-        setDocInfo(data.doctor);
-      } else {
-        toast.error("Doctor not found");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to load doctor");
-    }
-  };
+const fetchDocInfo = () => {
+  const doctor = doctors.find((doc) => doc._id === docId);
+
+  if (doctor) {
+    setDocInfo(doctor);
+  }
+};
 
   const getAvailableSlots = async () => {
     if (!docInfo || !docInfo.weeklyAvailability) return;
@@ -268,9 +262,11 @@ export const Appoinment = () => {
     }
   };
 
-  useEffect(() => {
+useEffect(() => {
+  if (doctors.length > 0) {
     fetchDocInfo();
-  }, [docId]);
+  }
+}, [docId, doctors]);
 
   useEffect(() => {
     window.scrollTo({
@@ -312,7 +308,8 @@ export const Appoinment = () => {
         <div className="bg-blue-600 flex justify-center w-full lg:w-1/3 rounded-md">
           <img
             className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full object-cover"
-            src={docInfo.image}
+            src={docInfo.image.replace("/upload/", "/upload/f_auto,q_auto,w_400/")}
+  loading="lazy"
             alt={docInfo.name}
           />
         </div>

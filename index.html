@@ -11,6 +11,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Doctor In City | Find Doctors Near You</title>
+    <!-- Google Font Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://res.cloudinary.com">
+
+    <!-- Outfit Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 
   <meta
     name="description"
@@ -45,12 +55,40 @@
   gtag('js', new Date());
   gtag('config', 'G-5F5Q5BCWHW');
 </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalOrganization",
+  "name": "Doctor In City",
+  "url": "https://www.doctorincity.com",
+  "logo": "https://www.doctorincity.com/image.png",
+  "sameAs": [
+    "https://www.facebook.com/",
+    "https://www.instagram.com/"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Doctor In City",
+  "url": "https://www.doctorincity.com/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.doctorincity.com/doctors/{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
 </head>
 
   <body>
     <div id="root"></div>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
