@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; img-src 'self' data: https:; script-src 'self' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://checkout.razorpay.com;"
+          "value": "default-src 'self'; img-src 'self' data: https:; script-src 'self' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://goodlife-backend-xb3b.onrender.com https://www.google-analytics.com https://analytics.google.com; frame-src https://checkout.razorpay.com;"
         },
         {
           "key": "Strict-Transport-Security",
