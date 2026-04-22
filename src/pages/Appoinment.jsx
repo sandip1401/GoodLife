@@ -56,12 +56,12 @@ const specialityInBengali = {
   Gastroenterologist: "( পাকস্থলী ও হজম বিশেষজ্ঞ )",
   Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
   Nephrologist: "( কিডনি রোগ বিশেষজ্ঞ )",
-    "ENT Specialist": "( নাক, কান, গলা বিশেষজ্ঞ )",
-    Homoeopath: "( হোমিওপ্যাথি বিশেষজ্ঞ )",
-    Physiotherapist: "( ফিজিওথেরাপিস্ট )",
-    "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
-    Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
-    Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
+  "ENT Specialist": "( নাক, কান, গলা বিশেষজ্ঞ )",
+  Homoeopath: "( হোমিওপ্যাথি বিশেষজ্ঞ )",
+  Physiotherapist: "( ফিজিওথেরাপিস্ট )",
+  "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
+  Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
+  Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
 };
 
 export const Appoinment = () => {
@@ -76,13 +76,13 @@ export const Appoinment = () => {
   const [filterDoc, setFilterDoc] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState("");
-const fetchDocInfo = () => {
-  const doctor = doctors.find((doc) => doc._id === docId);
+  const fetchDocInfo = () => {
+    const doctor = doctors.find((doc) => doc._id === docId);
 
-  if (doctor) {
-    setDocInfo(doctor);
-  }
-};
+    if (doctor) {
+      setDocInfo(doctor);
+    }
+  };
 
   const getAvailableSlots = async () => {
     if (!docInfo || !docInfo.weeklyAvailability) return;
@@ -251,7 +251,23 @@ const fetchDocInfo = () => {
       );
       if (data.success) {
         toast.success(data.message);
-        getDoctorsData();
+        setDocInfo((prev) => {
+          const updated = { ...prev };
+
+          if (!updated.slots_booked) {
+            updated.slots_booked = {};
+          }
+
+          if (!updated.slots_booked[slotDate]) {
+            updated.slots_booked[slotDate] = [];
+          }
+
+          // ✅ add booked slot
+          updated.slots_booked[slotDate].push(slotTime);
+
+          return updated;
+        });
+        await getAvailableSlots();
         navigate("/my-appointments");
       } else {
         toast.error(data.message);
@@ -262,11 +278,11 @@ const fetchDocInfo = () => {
     }
   };
 
-useEffect(() => {
-  if (doctors.length > 0) {
-    fetchDocInfo();
-  }
-}, [docId, doctors]);
+  useEffect(() => {
+    if (doctors.length > 0) {
+      fetchDocInfo();
+    }
+  }, [docId, doctors]);
 
   useEffect(() => {
     window.scrollTo({
@@ -308,8 +324,11 @@ useEffect(() => {
         <div className="bg-blue-600 flex justify-center w-full lg:w-1/3 rounded-md">
           <img
             className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full object-cover"
-            src={docInfo.image.replace("/upload/", "/upload/f_auto,q_auto,w_400/")}
-  loading="lazy"
+            src={docInfo.image.replace(
+              "/upload/",
+              "/upload/f_auto,q_auto,w_400/",
+            )}
+            loading="lazy"
             alt={docInfo.name}
           />
         </div>
@@ -587,9 +606,7 @@ useEffect(() => {
 
               {/* BOTTOM FULL WIDTH SECTION */}
               <div className="border-t border-blue-200 text-center text-[11.5px] text-gray-600 py-0.5 bg-blue-50 truncate px-2">
-                <span className="truncate block">
-                  {item.achievement}
-                </span>
+                <span className="truncate block">{item.achievement}</span>
               </div>
             </div>
           ))}

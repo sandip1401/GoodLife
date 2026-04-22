@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
   const navigate = useNavigate();
   return (
     <div className="mt-5">
@@ -59,9 +61,34 @@ export default function Footer() {
             >
               Home
             </li>
-            <li>About us</li>
-            <li>Delivery</li>
-            <li>Privacy policy</li>
+            <li
+              onClick={() => {
+                navigate("/about");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="cursor-pointer hover:text-blue-600 transition"
+            >
+              About Us
+            </li>
+            <li
+              onClick={() => {
+                setModalType("refund");
+                setShowModal(true);
+              }}
+              className="cursor-pointer hover:text-blue-600 transition"
+            >
+              Refund policy
+            </li>
+
+            <li
+              onClick={() => {
+                setModalType("terms");
+                setShowModal(true);
+              }}
+              className="cursor-pointer hover:text-blue-600 transition"
+            >
+              Terms & Conditions
+            </li>
           </ul>
         </div>
 
@@ -84,6 +111,68 @@ export default function Footer() {
           Copyright 2026 @ Doctor In City - All Right Reserved.{" "}
         </p>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Background Blur */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setShowModal(false)}
+          ></div>
+
+          {/* Modal Box */}
+          <div className="relative bg-white w-[90%] sm:w-[500px] max-h-[80vh] overflow-y-auto rounded-xl p-5 shadow-xl z-50">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black"
+            >
+              ✕
+            </button>
+
+            {/* Title */}
+            <h2 className="text-xl font-semibold mb-4">
+              {modalType === "refund" ? "Refund Policy" : "Terms & Conditions"}
+            </h2>
+
+            {/* Content */}
+            <div className="text-sm text-gray-600 space-y-2">
+              {modalType === "refund" ? (
+                <>
+                  <p>
+                    • No refund will be provided once the appointment is booked.
+                  </p>
+                  <p>
+                    • If the doctor cancels the appointment, contact support.
+                  </p>
+                  <p>
+                    • If payment is deducted but failed, refund within 5-7 days.
+                  </p>
+                  <p>• For issues, contact support team.</p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    • Patients must reach the clinic 15-20 minutes before the
+                    appointment time.
+                  </p>
+                  <p>• Patients must carry previous medical reports.</p>
+                  <p>• Report immediately if any staff behaves rudely.</p>
+                  <p>
+                    • Appointment timing may be delayed based on doctor
+                    availability.
+                  </p>
+                  <p>• Provide correct details while booking.</p>
+                  <p>• One appointment is valid for one patient only.</p>
+                  <p>• No refund after successful booking.</p>
+                  <p>• Platform only connects patients with doctors.</p>
+                  <p>• Misuse may lead to account suspension.</p>
+                  <p>• By booking, you agree to all terms.</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -61,26 +61,26 @@ export default function Doctors() {
   return (
     <div className="relative">
       <Helmet>
-  <title>
-    {speciality
-      ? `${speciality} Doctors in ${city || "Rampurhat"} | Doctor In City`
-      : `Best Doctors in ${city || "Rampurhat"} | Doctor In City`}
-  </title>
+        <title>
+          {speciality
+            ? `${speciality} Doctors in ${city || "Rampurhat"} | Doctor In City`
+            : `Best Doctors in ${city || "Rampurhat"} | Doctor In City`}
+        </title>
 
-  <meta
-    name="description"
-    content={`Find verified ${
-      speciality ? speciality : ""
-    } doctors in ${city || "Rampurhat"} with Doctor In City. Book appointments online easily.`}
-  />
+        <meta
+          name="description"
+          content={`Find verified ${
+            speciality ? speciality : ""
+          } doctors in ${city || "Rampurhat"} with Doctor In City. Book appointments online easily.`}
+        />
 
-  <link
-    rel="canonical"
-    href={`https://www.doctorincity.com/doctors/${city || ""}${
-      speciality ? "/" + speciality : ""
-    }`}
-  />
-</Helmet>
+        <link
+          rel="canonical"
+          href={`https://www.doctorincity.com/doctors/${city || ""}${
+            speciality ? "/" + speciality : ""
+          }`}
+        />
+      </Helmet>
 
       {/* ===== Mobile Fixed Header Only ===== */}
       <div className="sm:hidden fixed top-16 left-0 w-full bg-white z-40">
@@ -93,7 +93,7 @@ export default function Doctors() {
             className={`w-full py-1 px-3 border rounded text-sm transition-all ${
               showFilter ? "text-white" : ""
             }`}
-            onClick={() => setShowFilter((prev) => !prev)}
+            // onClick={() => setShowFilter((prev) => !prev)}
           >
             Filters
           </button>
@@ -113,7 +113,7 @@ export default function Doctors() {
           className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${
             showFilter ? "bg-blue-500 text-white" : ""
           }`}
-          onClick={() => setShowFilter((prev) => !prev)}
+          // onClick={() => setShowFilter((prev) => !prev)}
         >
           Filters
         </button>
@@ -301,7 +301,7 @@ export default function Doctors() {
         )}
 
         {/* ===== Desktop Sidebar ===== */}
-        <div className="hidden sm:flex flex-col text-gray-600 text-sm pr-5 gap-4">
+        {/* <div className="hidden sm:flex flex-col text-gray-600 text-sm pr-5 gap-4">
           <p
             onClick={() =>
               speciality === "General physician"
@@ -430,7 +430,7 @@ export default function Doctors() {
           >
             Ophthalmologist
           </p>
-        </div>
+        </div> */}
 
         <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-7 mt-6 sm:mt-0">
           {filterDoc.map((item, index) => (
