@@ -142,12 +142,16 @@ const Navbar = () => {
   const [query, setQuery] = useState("");
 
   const searchRef = useRef(null);
+  const profileRef = useRef(null);
 
-  /* ---- CLOSE SEARCH (DESKTOP + MOBILE) ---- */
+  /* ---- CLOSE SEARCH & PROFILE MENU (DESKTOP + MOBILE) ---- */
   useEffect(() => {
     const close = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowSearch(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
       }
     };
     document.addEventListener("mousedown", close);
@@ -187,6 +191,8 @@ const Navbar = () => {
     Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
   };
 
+  const logoSrc = `${import.meta.env.BASE_URL}logo.png`;
+
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
       <div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] py-3 border-b border-gray-300">
@@ -200,11 +206,11 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src="/logo.png"
+              src={logoSrc}
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
-              {/* <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent"> */}
+            {/* <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent"> */}
 
             <div className="flex flex-col leading-none -ml-2">
               <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">
@@ -301,16 +307,17 @@ const Navbar = () => {
             {/* PROFILE (ORIGINAL CSS RESTORED) */}
             {token ? (
               <>
-                <div
-                  className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => setShowProfileMenu((p) => !p)}
-                >
-                  <img className="w-8 rounded-full" src={assets.profile_pic} />
-                  <img className="w-2.5" src={assets.dropdown_icon} />
-                </div>
+                <div ref={profileRef} className="relative">
+                  <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => setShowProfileMenu((p) => !p)}
+                  >
+                    <img className="w-8 rounded-full" src={assets.profile_pic} />
+                    <img className="w-2.5" src={assets.dropdown_icon} />
+                  </div>
 
-                {showProfileMenu && (
-                  <div className="absolute right-2 sm:right-0 top-12 z-20 min-w-48 bg-stone-100 rounded flex flex-col gap-2 p-4 text-base text-gray-600">
+                  {showProfileMenu && (
+                    <div className="absolute right-2 sm:right-0 top-12 z-20 min-w-48 bg-stone-100 rounded flex flex-col gap-2 p-4 text-base text-gray-600">
                     <p
                       onClick={() => {
                         navigate("/my-profile");
@@ -337,6 +344,7 @@ const Navbar = () => {
                     </p>
                   </div>
                 )}
+              </div>
               </>
             ) : (
               <button
@@ -369,7 +377,7 @@ const Navbar = () => {
         } xl:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}
       >
         <div className="flex items-center justify-between px-5 py-6">
-                    {/* LOGO */}
+          {/* LOGO */}
           <li
             onClick={() => {
               navigate("/");
@@ -378,11 +386,11 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src="/logo.png"
+              src={logoSrc}
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
-              {/* <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent"> */}
+            {/* <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent"> */}
 
             <div className="flex flex-col leading-none -ml-2">
               <span className="text-4xl font-semibold bg-gradient-to-r from-[#0399ef] via-[#38bdf8] to-[#2dd4bf] bg-clip-text text-transparent">

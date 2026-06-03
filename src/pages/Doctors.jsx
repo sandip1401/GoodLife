@@ -29,6 +29,7 @@ export default function Doctors() {
     "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
     Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
     Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
+    Urologist: "(ইউরোলজিস্ট)"
   };
 
   const applyFilter = () => {
@@ -503,3 +504,6 @@ export default function Doctors() {
     </div>
   );
 }
+
+
+

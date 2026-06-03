@@ -71,6 +71,29 @@ export const Appoinment = () => {
   const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const navigate = useNavigate();
 
+  const normalizeContactNumber = (value) => {
+    if (Array.isArray(value)) {
+      return normalizeContactNumber(value[0]);
+    }
+
+    if (value == null) {
+      return "";
+    }
+
+    let cleaned = String(value).trim();
+    if (cleaned.startsWith("[") && cleaned.endsWith("]")) {
+      try {
+        const parsed = JSON.parse(cleaned);
+        return normalizeContactNumber(parsed);
+      } catch (error) {
+        cleaned = cleaned.slice(1, -1);
+      }
+    }
+
+    cleaned = cleaned.replace(/^"+|"+$/g, "").trim();
+    return cleaned;
+  };
+
   const [docInfo, setDocInfo] = useState(null);
   const [docSlots, setDocSlots] = useState([]);
   const [filterDoc, setFilterDoc] = useState([]);
@@ -502,22 +525,20 @@ export const Appoinment = () => {
 
             <div className="mt-3 flex flex-col gap-2">
               {docInfo.managerContacts.map((number, index) => {
-                // If user not logged in, hide last 5 digits
+                const normalizedNumber = normalizeContactNumber(number);
                 const maskedNumber =
-                  number.slice(0, number.length - 4) + "****";
+                  normalizedNumber.slice(0, normalizedNumber.length - 4) + "****";
 
                 return (
                   <div key={index}>
                     {token ? (
-                      // Logged in → show full number
                       <a
-                        href={`tel:${number}`}
+                        href={`tel:${normalizedNumber}`}
                         className="text-blue-600 font-medium hover:text-blue-800 transition-colors duration-200"
                       >
-                        📞 {number}
+                        📞 {normalizedNumber}
                       </a>
                     ) : (
-                      // Not logged in → show masked number
                       <p className="text-gray-600 font-medium">
                         📞 {maskedNumber}
                       </p>
