@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import { CiLocationOn } from "react-icons/ci";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function MyAppoinment() {
-  const { appointments, getUserAppointments, backendUrl, token } =
+  const { appointments, getUserAppointments, backendUrl, token, appointmentsLoading } =
     useContext(AppContext);
 
   const navigate = useNavigate();
@@ -52,7 +53,17 @@ export default function MyAppoinment() {
     getUserAppointments();
   }, []);
 
-  // ✅ Prevent crash while data is loading
+  // show loading spinner while fetching
+  if (appointmentsLoading) {
+    return (
+      <div className="mt-10 text-center">
+        <AiOutlineLoading3Quarters className="text-3xl mx-auto animate-spin text-blue-600" />
+        <p className="text-zinc-500 mt-2">Loading appointments...</p>
+      </div>
+    );
+  }
+
+  // No appointments
   if (!appointments || appointments.length === 0) {
     return (
       <p className="mt-10 text-center text-zinc-500">No appointments found</p>

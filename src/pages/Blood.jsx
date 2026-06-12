@@ -164,13 +164,46 @@ export default function Blood() {
           name="description"
           content={`Find blood donors in ${
             selectedLocation || "Rampurhat"
-          }. Search by blood group and contact instantly in emergency.`}
+          }. Search by blood group, city, and connect instantly for urgent blood needs.`}
         />
+        <meta
+          name="keywords"
+          content={`blood donor Rampurhat, blood donor near me, emergency blood donor, find blood donor, Doctor In City blood donor`}
+        />
+        <meta
+          property="og:title"
+          content={`Blood Donors in ${selectedLocation || urlCity || "Rampurhat"} | Doctor In City`}
+        />
+        <meta
+          property="og:description"
+          content={`Search verified blood donors in ${selectedLocation || "Rampurhat"}. Contact donors by blood group and city for urgent needs.`}
+        />
+        <meta
+          property="og:url"
+          content={`https://www.doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.doctorincity.com/logo.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Doctor In City Rampurhat blood donor service" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={`Blood Donors in ${selectedLocation || urlCity || "Rampurhat"} | Doctor In City`}
+        />
+        <meta
+          name="twitter:description"
+          content={`Search verified blood donors in ${selectedLocation || "Rampurhat"}. Contact donors by blood group and city for urgent needs.`}
+        />
+        <meta name="twitter:image" content="https://www.doctorincity.com/logo.png" />
+        <meta name="twitter:image:alt" content="Doctor In City blood donor service" />
+        <link rel="image_src" href="https://www.doctorincity.com/logo.png" />
 
         {/* ✅ CANONICAL URL */}
         <link
           rel="canonical"
-          href={`https://doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`}
+          href={`https://www.doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`}
         />
 
         {/* ✅ STRUCTURED DATA */}
@@ -181,7 +214,7 @@ export default function Blood() {
             name: "DoctorInCity",
             areaServed: selectedLocation || urlCity || "Rampurhat",
             serviceType: "Blood Donor Finder",
-            url: `https://doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`,
+            url: `https://www.doctorincity.com/blood-donor/${selectedLocation || urlCity || "rampurhat"}`,
           })}
         </script>
       </Helmet>

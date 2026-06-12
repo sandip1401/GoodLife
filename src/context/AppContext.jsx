@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
@@ -12,9 +12,12 @@ const AppContextProvider = (props) => {
   const [donors, setDonors] = useState([]);
   const [clinics, setClinics] = useState([]);
   const [clinicDoctors, setClinicDoctors] = useState([]);
+  const [clinicsLoading, setClinicsLoading] = useState(false);
+  const [clinicDoctorsLoading, setClinicDoctorsLoading] = useState(false);
 
 const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [appointments, setAppointments] = useState([]);
+  const [appointmentsLoading, setAppointmentsLoading] = useState(false);
 
   const getDoctorsData = async () => {
     try {
@@ -30,21 +33,26 @@ const [token, setToken] = useState(localStorage.getItem("token") || null);
     }
   };
 
-const getDoctorsByClinic = async (clinicId) => {
+const getDoctorsByClinic = useCallback(async (clinicId) => {
   try {
+    setClinicDoctorsLoading(true);
     const { data } = await axios.get(
-backendUrl + "/api/clinic/doctors-by-clinic/" + clinicId    );
+      backendUrl + "/api/clinic/doctors-by-clinic/" + clinicId
+    );
 
     if (data.success) {
       setClinicDoctors(data.doctors);
     }
   } catch (error) {
     console.log(error);
+  } finally {
+    setClinicDoctorsLoading(false);
   }
-};
+}, [backendUrl]);
 
-  const getAllClinics = async () => {
+  const getAllClinics = useCallback(async () => {
   try {
+    setClinicsLoading(true);
     const { data } = await axios.get(
       backendUrl + "/api/clinic/list"
     );
@@ -57,11 +65,15 @@ backendUrl + "/api/clinic/doctors-by-clinic/" + clinicId    );
   } catch (error) {
     console.log(error);
     toast.error("Failed to load clinics");
+  } finally {
+    setClinicsLoading(false);
   }
-};
+}, [backendUrl]);
 
   const getUserAppointments = async () => {
     try {
+      setAppointmentsLoading(true);
+
       const { data } = await axios.get(
         `${backendUrl}/api/user/my-appointments`,
         {
@@ -76,6 +88,8 @@ backendUrl + "/api/clinic/doctors-by-clinic/" + clinicId    );
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch appointments");
+    } finally {
+      setAppointmentsLoading(false);
     }
   };
 
@@ -273,6 +287,9 @@ useEffect(() => {
   const value = {
     doctors,
     appointments,
+    appointmentsLoading,
+    clinicsLoading,
+    clinicDoctorsLoading,
     currencySymbol,
     getDoctorsData,
     token,

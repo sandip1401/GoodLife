@@ -5,6 +5,24 @@ import { Helmet } from "react-helmet-async";
 export default function Contact() {
   return (
     <div>
+      <Helmet>
+        <title>Contact Doctor In City | Rampurhat Medical Help</title>
+        <meta
+          name="description"
+          content="Contact Doctor In City for doctor appointments, clinic information, and blood donor support in Rampurhat. Reach our team for urgent medical help."
+        />
+        <meta
+          name="keywords"
+          content="contact doctor in city, Rampurhat medical help, doctor appointment support, blood donor contact, clinic inquiry"
+        />
+        <meta property="og:title" content="Contact Doctor In City | Rampurhat Medical Help" />
+        <meta
+          property="og:description"
+          content="Get in touch with Doctor In City for doctor appointments, clinic information, and blood donor support in Rampurhat."
+        />
+        <meta property="og:url" content="https://www.doctorincity.com/contact" />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <div className='flex items-center justify-center text-2xl gap-1.5 mt-16 mb-12'>
       <p className='text-gray-500'>CONTACT</p>
       <p>US</p>

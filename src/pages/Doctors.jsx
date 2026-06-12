@@ -29,7 +29,7 @@ export default function Doctors() {
     "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
     Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
     Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
-    Urologist: "(ইউরোলজিস্ট)"
+    Urologist: "(কিডনি ও মূত্রনালীর রোগ বিশেষজ্ঞ)"
   };
 
   const applyFilter = () => {
@@ -71,10 +71,47 @@ export default function Doctors() {
         <meta
           name="description"
           content={`Find verified ${
-            speciality ? speciality : ""
-          } doctors in ${city || "Rampurhat"} with Doctor In City. Book appointments online easily.`}
+            speciality ? speciality : "specialist"
+          } doctors in ${city || "Rampurhat"} with Doctor In City. Book appointments online, compare clinics, and get fast local care.`}
         />
-
+        <meta
+          name="keywords"
+          content={`Rampurhat doctors, ${speciality || "doctors"}, ${city || "Rampurhat"} clinics, online doctor appointment, medical specialists`}
+        />
+        <meta
+          property="og:title"
+          content={
+            speciality
+              ? `${speciality} Doctors in ${city || "Rampurhat"} | Doctor In City`
+              : `Best Doctors in ${city || "Rampurhat"} | Doctor In City`
+          }
+        />
+        <meta
+          property="og:description"
+          content={`Find verified ${speciality ? speciality : "doctors"} in ${city || "Rampurhat"}. Book appointments online and connect with trusted clinics.`}
+        />
+        <meta
+          property="og:url"
+          content={`https://www.doctorincity.com/doctors/${city || ""}${
+            speciality ? "/" + speciality : ""
+          }`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.doctorincity.com/logo.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={
+            speciality
+              ? `${speciality} Doctors in ${city || "Rampurhat"} | Doctor In City`
+              : `Best Doctors in ${city || "Rampurhat"} | Doctor In City`
+          }
+        />
+        <meta
+          name="twitter:description"
+          content={`Find verified ${speciality ? speciality : "doctors"} in ${city || "Rampurhat"}. Book appointments online and connect with trusted clinics.`}
+        />
+        <meta name="twitter:image" content="https://www.doctorincity.com/logo.png" />
         <link
           rel="canonical"
           href={`https://www.doctorincity.com/doctors/${city || ""}${
@@ -94,7 +131,7 @@ export default function Doctors() {
             className={`w-full py-1 px-3 border rounded text-sm transition-all ${
               showFilter ? "text-white" : ""
             }`}
-            // onClick={() => setShowFilter((prev) => !prev)}
+            onClick={() => setShowFilter((prev) => !prev)}
           >
             Filters
           </button>
@@ -108,13 +145,13 @@ export default function Doctors() {
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-start gap-5 mt-1">
+      <div className="flex flex-col sm:flex-row sm:items-start gap-5 mt-1 sm:min-w-0">
         {/* Mobile button hidden here because it's in fixed header */}
         <button
           className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${
             showFilter ? "bg-blue-500 text-white" : ""
           }`}
-          // onClick={() => setShowFilter((prev) => !prev)}
+          onClick={() => setShowFilter((prev) => !prev)}
         >
           Filters
         </button>
@@ -288,6 +325,15 @@ export default function Doctors() {
                   </span>
                 </p>
                 <p
+                  onClick={() => handleSpecialityClick("Urologist")}
+                  className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Urologist" ? "bg-indigo-100 text-black" : ""}`}
+                >
+                  Urologist
+                  <span className="ml-1 text-xs text-gray-500 break-words">
+                    {specialityInBengali["Urologist"]}
+                  </span>
+                </p>
+                <p
                   onClick={() => handleSpecialityClick("Ophthalmologist")}
                   className={`w-full whitespace-nowrap sm:w-auto pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Ophthalmologist" ? "bg-indigo-100 text-black" : ""}`}
                 >
@@ -302,7 +348,7 @@ export default function Doctors() {
         )}
 
         {/* ===== Desktop Sidebar ===== */}
-        {/* <div className="hidden sm:flex flex-col text-gray-600 text-sm pr-5 gap-4">
+      <div className="hidden sm:flex flex-col text-gray-600 text-sm pr-0 gap-4 sm:w-[235px] sm:min-w-[235px] sm:sticky sm:top-16 sm:h-[calc(100vh-4rem)] sm:overflow-y-auto">
           <p
             onClick={() =>
               speciality === "General physician"
@@ -329,7 +375,7 @@ export default function Doctors() {
                 ? navigate("/doctors")
                 : navigate("/doctors/Dermatologist")
             }
-            className={`w-full whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Dermatologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Dermatologist
           </p>
@@ -426,14 +472,20 @@ export default function Doctors() {
             Orthopedic
           </p>
           <p
+            onClick={() => handleSpecialityClick("Urologist")}
+            className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Urologist" ? "bg-indigo-100 text-black" : ""}`}
+          >
+            Urologist
+          </p>
+          <p
             onClick={() => handleSpecialityClick("Ophthalmologist")}
             className={`w-56 whitespace-nowrap pl-3 py-1.5 pr-16 border  border-gray-300 rounded-sm cursor-pointer ${speciality === "Ophthalmologist" ? "bg-indigo-100 text-black" : ""}`}
           >
             Ophthalmologist
           </p>
-        </div> */}
+        </div>
 
-        <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-7 mt-6 sm:mt-0">
+        <div className="flex-1 min-w-0 grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-1 mt-6 sm:mt-0 sm:h-[calc(100vh-4rem)] sm:overflow-y-auto">
           {filterDoc.map((item, index) => (
             <div
               key={item._id}

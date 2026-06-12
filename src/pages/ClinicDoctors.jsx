@@ -1,25 +1,41 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext.jsx";
 import { assets } from "../assets/assets_frontend/assets";
-import { useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const ClinicDoctors = () => {
   const { clinicId } = useParams();
   const navigate = useNavigate();
 
-  const { clinicDoctors, getDoctorsByClinic, clinics } = useContext(AppContext);
+  const { clinicDoctors, getDoctorsByClinic, clinics, getAllClinics, clinicDoctorsLoading, clinicsLoading } = useContext(AppContext);
 
   const [clinicInfo, setClinicInfo] = useState(null);
 
-  useEffect(() => {
-    if (clinicId) {
-      getDoctorsByClinic(clinicId);
+  const availableClinicDoctors = clinicDoctors?.filter((item) => item.available);
 
-      const foundClinic = clinics.find((c) => c._id === clinicId);
-      setClinicInfo(foundClinic);
+  useEffect(() => {
+    if (!clinicId) return;
+
+    getDoctorsByClinic(clinicId);
+
+    if (!clinics || clinics.length === 0) {
+      getAllClinics();
+      return;
     }
+
+    const foundClinic = clinics.find((c) => c._id === clinicId);
+    setClinicInfo(foundClinic);
   }, [clinicId, clinics]);
+
+  if (clinicDoctorsLoading || clinicsLoading) {
+    return (
+      <div className="mt-10 text-center">
+        <AiOutlineLoading3Quarters className="text-4xl mx-auto animate-spin text-blue-600" />
+        <p className="text-zinc-500 mt-2">Loading clinic details...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="px-1 mt-3">
@@ -43,7 +59,7 @@ const ClinicDoctors = () => {
 
       {/* DOCTOR LIST */}
       <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 gap-y-7 mt-3 sm:mt-0">
-        {clinicDoctors?.map((item, index) => (
+        {availableClinicDoctors?.map((item, index) => (
           <div
             key={item._id}
             onClick={() => navigate(`/appoinment/${item._id}`)}
