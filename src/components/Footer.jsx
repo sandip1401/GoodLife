@@ -5,6 +5,7 @@ export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const navigate = useNavigate();
+  const logoSrc = import.meta.env.BASE_URL + "logo.png";
 
 
   return (
@@ -21,7 +22,7 @@ export default function Footer() {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src="/logo.png"
+              src={logoSrc}
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />

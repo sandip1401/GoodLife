@@ -192,6 +192,8 @@ const Navbar = () => {
 
   };
 
+  const logoSrc = import.meta.env.BASE_URL + "logo.png";
+
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
       <div className="mx-6 sm:mx-[10%] md:mx-[5%] lg:mx-[10%] py-3 border-b border-gray-300">
@@ -205,7 +207,7 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src="/logo.png"
+              src={logoSrc}
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
@@ -388,7 +390,7 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src="/logo.png"
+              src={logoSrc}
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
