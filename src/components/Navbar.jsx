@@ -184,14 +184,14 @@ const Navbar = () => {
     Cardiologist: "( হৃদরোগ বিশেষজ্ঞ )",
     Nephrologist: "( কিডনি রোগ বিশেষজ্ঞ )",
     "ENT Specialist": "( নাক, কান, গলা বিশেষজ্ঞ )",
-    Homoeopath: "( হোমিওপ্যাথি বিশেষজ্ঞ )",
+    Homoeopath: "( হোমিওথেরাপিস্ট বিশেষজ্ঞ )",
     Physiotherapist: "( ফিজিওথেরাপিস্ট )",
     "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
     Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
     Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
   };
 
-  const logoSrc = `${import.meta.env.BASE_URL}logo.png`;
+  const logoSrc = new URL("/logo.png", import.meta.url).href;
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">

@@ -5,7 +5,7 @@ export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const navigate = useNavigate();
-  const logoSrc = `${import.meta.env.BASE_URL}logo.png`;
+  const logoSrc = new URL("/logo.png", import.meta.url).href;
   return (
     <div className="mt-5">
       <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-8 text-sm mt-40">
