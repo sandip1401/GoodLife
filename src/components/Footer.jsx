@@ -5,7 +5,8 @@ export default function Footer() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const navigate = useNavigate();
-  const logoSrc = new URL("/logo.png", import.meta.url).href;
+
+
   return (
     <div className="mt-5">
       <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-8 text-sm mt-40">
@@ -20,7 +21,7 @@ export default function Footer() {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src={logoSrc}
+              src="/logo.png"
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />

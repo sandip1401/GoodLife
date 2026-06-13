@@ -189,9 +189,8 @@ const Navbar = () => {
     "Diabetes & Thyroid Specialist": "( সুগার ও থাইরয়েড রোগ বিশেষজ্ঞ )",
     Orthopedic: "( মেরুদণ্ড ও হাড় রোগ বিশেষজ্ঞ )",
     Ophthalmologist: "( চক্ষু রোগ বিশেষজ্ঞ )",
-  };
 
-  const logoSrc = new URL("/logo.png", import.meta.url).href;
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white text-sm">
@@ -206,7 +205,7 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src={logoSrc}
+              src="/logo.png"
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
@@ -389,7 +388,7 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-0 -ml-2"
           >
             <img
-              src={logoSrc}
+              src="/logo.png"
               alt="Doctor InCity"
               className="w-14 -my-2 object-contain"
             />
